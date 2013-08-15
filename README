@@ -1,0 +1,5 @@
+This is a basic  ftp one direction sync software that does nothing all that exciting.
+
+Ultimately i would liek to have a few pluggable authentication bits so i cna use a IIS7.5 + server adn use campfire or something else for authentication to minimize setup over head.
+
+good teims.
