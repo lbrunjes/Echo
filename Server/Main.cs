@@ -17,6 +17,11 @@ namespace Server
 		{
 			//read teh settings file
 			Settings.ReadConfigFile ();
+
+			Console.Write ("Starting up");
+
+			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch ();
+			sw.Start ();
 			SyncList Listing = new SyncList (Settings.LocalDirectory);
 
 			//Loop occasionally
@@ -25,10 +30,12 @@ namespace Server
 				//write the hashes file to the server directory.
 				Listing.saveSyncList (Settings.HashFile);
 
-				Console.WriteLine (" ... Done");
-
+				Console.WriteLine (" ... Done ("+ sw.ElapsedMilliseconds+" ms)");
+				sw.Stop ();
 				//wait a bit.
 				Thread.Sleep (Settings.LoopTime);
+				sw.Reset ();
+				sw.Start ();
 
 				//
 				Console.Write ("Scanning");
