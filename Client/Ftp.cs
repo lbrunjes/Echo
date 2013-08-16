@@ -14,8 +14,9 @@ namespace Client
 	public class Ftp
 	{
 
-		public static void DownloadFile (string fileName)
+		public static int DownloadFile (string fileName)
 		{
+			int filesChanged = 0;
 			string dir = "";
 			//remove file if it exists.
 			if (File.Exists (Settings.LocalDirectory + fileName)) {
@@ -29,28 +30,37 @@ namespace Client
 					Directory.CreateDirectory(dir);
 				}
 
-				using (StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.LocalDirectory+fileName))) {
+				using (FileStream file  = File.OpenWrite(Settings.LocalDirectory+fileName)) {
 
 
 					FtpWebRequest ftp = (FtpWebRequest)WebRequest.Create (Settings.FTPServer + fileName.Replace('\\','/'));
 					ftp.Method = WebRequestMethods.Ftp.DownloadFile;
+					ftp.UseBinary =true;
 
 					ftp.Credentials = new NetworkCredential (Settings.RemoteUser, Settings.RemotePassword);
 					FtpWebResponse response = (FtpWebResponse)ftp.GetResponse ();
 
-					StreamReader sr = new StreamReader (response.GetResponseStream());
+					Stream ftpdata = response.GetResponseStream();
+					Byte[] buffer = new byte[2048];
 
+				
 
-
-					while (sr.Peek() >0) {
-						sw.Write (sr.Read());
+					//this is dumb 
+					//it shoudl use a buffer and use binary
+					while (ftpdata.Read(buffer,0, buffer.Length) >0) {
+						file.Write(buffer,0,buffer.Length);
 					}
-					sw.Flush ();
+					filesChanged ++;
+					ftpdata.Close();
+					file.Flush();
+					file.Close();
 				}
 			}
 			catch(Exception ex){
 				Console.WriteLine ("Cannot download file " + fileName + " because " + ex.Message);
 			}
+
+			return filesChanged;
 		}
 	}
 }
