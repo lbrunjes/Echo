@@ -1,0 +1,9 @@
+
+To go to production it would be best to use the following for auth to campfire ot minimize admin over head:
+
+Microsoft.Web.FtpServer
+IFtpAuthenticationProvider 
+IFtpRole Provider
+
+http://msdn.microsoft.com/en-us/library/dd692892(v=vs.90).aspx
+http://msdn.microsoft.com/en-us/library/dd692879(v=vs.90).aspx

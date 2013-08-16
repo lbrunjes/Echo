@@ -31,18 +31,41 @@ namespace Client
 			//get the delta list
 			foreach(KeyValuePair<string,string> kvp in serverhashes){
 			
-				//remove files that dont exist server side if set to
-				if (! LocalData.HashList.ContainsKey (kvp.Key) || kvp.Value != LocalData.HashList [kvp.Key]) {
-					FilesToDownload.Add (kvp.Key);
-					LocalData.HashList.Remove (kvp.Key);
+				//ignore metadata.
+				if (kvp.Key == "__Server" || kvp.Key == "__DateGeneratedUTC") {
+					;
+				} else {
+					//remove files that dont exist server side if set to
+					if (! LocalData.HashList.ContainsKey (kvp.Key) || kvp.Value != LocalData.HashList [kvp.Key].Hash) {
+						FilesToDownload.Add (kvp.Key);
+						LocalData.HashList.Remove (kvp.Key);
+					}
 				}
 
 			}
 
 			//Remove Files if set to
 			if(Settings.RemoveLocalFileIfNoRemoteFile){
-				foreach(KeyValuePair<string,string> kvp in LocalData.HashList){
-					File.Delete(Settings.LocalDirectory+kvp.Key);
+
+			bool shouldDelete = true;
+				//ensure we didnt delte everything accidentally.
+				if (LocalData.HashList.Count > Settings.numFilesToRemoveWithNoWarning) {
+					shouldDelete = false;
+					Console.Write (LocalData.HashList.Count + " Files Are flagged for deletion, Remove them (Y/N)");
+					char key = (char)Console.Read ();
+
+					if( key == 'Y' || key == 'y'){
+						shouldDelete =true;
+					}
+
+				}
+
+
+				//remove files
+				if(shouldDelete){
+					foreach(KeyValuePair<string,SyncItem> kvp in LocalData.HashList){
+						File.Delete(Settings.LocalDirectory+kvp.Key);
+					}
 				}
 			}
 

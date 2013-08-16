@@ -13,7 +13,7 @@ namespace Server
 	public static class Settings
 	{
 		public static string FTPServer="127.0.0.1";
-		public static string HashFile="C:\\inetpub\\wwwroot\\Stuff\\ashes.txt";
+		public static string HashFile="C:/inetpub/wwwroot/Stuff/hashes.txt";
 		public static string RemoteUser="ANNON";
 		public static string RemotePassword ="IM_A_PT_I_SWEAR";
 		public static string LocalDirectory = "C:\\Users\\Confused\\Dropbox\\inprogress\\BeatDown";

@@ -18,6 +18,7 @@ namespace Client
 		public static string RemotePassword ="IM_A_PT_I_SWEAR";
 		public static string LocalDirectory = "C:\\Users\\Confused\\Dropbox\\inprogress\\BeatDown";
 		public static bool RemoveLocalFileIfNoRemoteFile = false;
+		public static int numFilesToRemoveWithNoWarning = 100;
 
 		public const string CONFIG_FILE="../../Settings.ini";
 

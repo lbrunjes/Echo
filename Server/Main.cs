@@ -25,11 +25,13 @@ namespace Server
 				//write the hashes file to the server directory.
 				Listing.saveSyncList (Settings.HashFile);
 
+				Console.WriteLine (" ... Done");
+
 				//wait a bit.
 				Thread.Sleep (Settings.LoopTime);
 
 				//
-				Console.WriteLine ("Scanning");
+				Console.Write ("Scanning");
 
 				//reset the hashes
 				Listing.loadSyncList (Listing.Path);

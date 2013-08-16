@@ -15,11 +15,10 @@ namespace Shared
 	{
 		protected string path = "";
 		public string Path{ get { return path; } }
+		
+		public string ServerName{ get { return Environment.MachineName; } }
 
-		protected string serverName = "unknown";
-		public string ServerName{ get { return serverName; } }
-
-		public Dictionary<string,string> HashList = new Dictionary<string, string> ();
+		public Dictionary<string,SyncItem> HashList = new Dictionary<string, SyncItem> ();
 
 
 		public SyncList (string directory)
@@ -32,15 +31,37 @@ namespace Shared
 		public void loadSyncList (string directory){
 
 			SyncFile file;
+			string key;
 
 			foreach (String filename  in Directory.GetFiles (directory)) {
 				try{
-				file = new SyncFile (filename);
+				
 
-				HashList.Add (filename.Replace (path, ""), file.Hash);
+					key =filename.Replace (path, "");
+
+					//is teh file known?
+					if(!HashList.ContainsKey(key)){
+						//new files get added
+						file = new SyncFile (filename);
+						HashList.Add (key, file);
+					}
+					else{
+						//does it still exist
+						if(HashList[key].CheckForRemoval()){
+							HashList.Remove(key);
+						}
+						else{
+							//only update if the file changed since last run.
+							if(HashList[key].CheckForModified()){
+								file = new SyncFile (filename);
+								HashList[key] = file;
+							}
+						}
+					}
+
 				}
 				catch(Exception ex){
-					//Console.WriteLine ("skipping" + filename);
+					Console.WriteLine ("skipped: " + filename + " because :" +ex.Message);
 				}
 			}
 
@@ -56,10 +77,11 @@ namespace Shared
 
 			writer.WriteLine ("{");
 
-			foreach (KeyValuePair<string,string> kvp in HashList) {
-				writer.WriteLine(String.Format("\"{0}\":\"{1}\",", kvp.Key.Replace("\\","/"), kvp.Value));
+			foreach (KeyValuePair<string,SyncItem> kvp in HashList) {
+				writer.WriteLine(String.Format("\"{0}\":\"{1}\",", kvp.Key.Replace("\\","/"), kvp.Value.Hash));
 			}
-			writer.WriteLine(String.Format("\"Server\":\"{0}\"", serverName));
+			writer.WriteLine(String.Format("\"__Server\":\"{0}\",", ServerName));
+			writer.WriteLine(String.Format("\"__DateGeneratedUTC\":\"{0:yy-MM-dd-hh-mm-ss}\"", DateTime.UtcNow));
 			writer.Write ("}");
             writer.Flush();
 			writer.Close ();

@@ -17,6 +17,10 @@ namespace Client
 		public static void DownloadFile (string fileName)
 		{
 			string dir = "";
+			//remove file if it exists.
+			if (File.Exists (Settings.LocalDirectory + fileName)) {
+				File.Delete (Settings.LocalDirectory + fileName);
+			}
 			try{
 				//make sure the requred directoreis exist
 				dir = Path.GetDirectoryName(Settings.LocalDirectory + fileName);

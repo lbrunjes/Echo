@@ -14,9 +14,7 @@ namespace Shared
 {
 	public abstract class SyncItem
 	{
-		protected SyncItem parent = null;
-		public SyncItem Parent{ get { return parent; } }
-	
+
 		protected string hash = "";
 		public string Hash{ get { return hash; } }
 
@@ -29,13 +27,17 @@ namespace Shared
 		protected string path = "";
 		public string Path{ get { return path; } }
 
-		protected bool inSync = true;
-		public bool InSync{ get { return inSync; } }
+
 
 		protected bool isDownloading = false;
 		public bool IsDownloading{ get { return isDownloading; } }
 
-
+		public bool CheckForModified(){
+			return File.GetCreationTimeUtc (Path) != ModifiedDate;
+		}
+		public bool CheckForRemoval(){
+			return !File.Exists (Path);
+		}
 
 		protected string CalculateHash (string filename){
 			using (FileStream stream = new FileStream( filename, FileMode.Open)) {
