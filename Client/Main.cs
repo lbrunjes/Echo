@@ -71,15 +71,19 @@ namespace Client
 
 
 			Console.WriteLine ("Need to download: " + FilesToDownload.Count + " files from " +Settings.FTPServer);
-
+			int progress = 0;
 			//dowlonad htem from ftp
 			Ftp RemoteFtp = new Ftp ();
 			foreach (string fileName in FilesToDownload) {
-				Ftp.DownloadFile (fileName);
+				progress += Ftp.DownloadFile (fileName);
 
 			}
 
-			Console.WriteLine ("Download done");
+			Console.WriteLine ("Downloaded "+progress+"/"+ FilesToDownload.Count +" File");
+
+			if (progress != FilesToDownload.Count) {
+				Console.WriteLine ("WARNING: NOT ALL FILES WERE SUCCESSFULLY DOWNLOADED");
+			}
 
 		}
 

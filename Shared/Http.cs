@@ -10,8 +10,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Json;
 using System.IO;
+using Shared;
 
-namespace Client
+namespace Shared
 {
 	public static class Http
 	{

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampfireFTPAuth", "CampfireFTPAuth\CampfireFTPAuth.csproj", "{4385C880-A173-48DE-8F92-FAF386B7C482}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWinForms", "ClientWinForms\ClientWinForms.csproj", "{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -23,6 +25,10 @@ Global
 		{4385C880-A173-48DE-8F92-FAF386B7C482}.Debug|x86.Build.0 = Debug|Any CPU
 		{4385C880-A173-48DE-8F92-FAF386B7C482}.Release|x86.ActiveCfg = Release|Any CPU
 		{4385C880-A173-48DE-8F92-FAF386B7C482}.Release|x86.Build.0 = Release|Any CPU
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.ActiveCfg = Debug|x86
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.Build.0 = Debug|x86
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Release|x86.ActiveCfg = Release|x86
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Release|x86.Build.0 = Release|x86
 		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Debug|x86.ActiveCfg = Debug|x86
 		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Debug|x86.Build.0 = Debug|x86
 		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Release|x86.ActiveCfg = Release|x86
@@ -33,7 +39,7 @@ Global
 		{F83BBFCB-0C15-4BBC-A616-FB4D8DA9A6A3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Client\Client.csproj
+		StartupItem = ClientWinForms\ClientWinForms.csproj
 		Policies = $0
 		$0.StandardHeader = $1
 		$1.Text = @\n PT SYNC\n 2013 Lee Brunjes\n\t\n A one way file sync System. \n\n

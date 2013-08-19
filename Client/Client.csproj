@@ -22,7 +22,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>full</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -39,9 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Http.cs" />
-    <Compile Include="Ftp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Settings.ini" />
@@ -50,8 +47,5 @@
     <Reference Include="System.Net" />
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Net.Json">
-      <HintPath>..\System.Net.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

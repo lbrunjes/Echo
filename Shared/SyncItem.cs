@@ -33,7 +33,7 @@ namespace Shared
 		public bool IsDownloading{ get { return isDownloading; } }
 
 		public bool CheckForModified(){
-			return File.GetCreationTimeUtc (Path) != ModifiedDate;
+			return File.GetLastWriteTimeUtc (Path) != ModifiedDate;
 		}
 		public bool CheckForRemoval(){
 			return !File.Exists (Path);

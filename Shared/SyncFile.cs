@@ -16,7 +16,7 @@ namespace Shared
 		{
 			this.hash = this.CalculateHash (path);
 			this.path = path;
-			this.ModifiedDate = File.GetCreationTimeUtc (path);
+			this.ModifiedDate = File.GetLastWriteTimeUtc (path);
 		}
 	}
 }
