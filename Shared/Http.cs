@@ -34,17 +34,14 @@ namespace Shared
 
 		private static string getHashData(){
 			string data = "";
-			try{
+
 				HttpWebRequest req =  (HttpWebRequest)WebRequest.Create(Settings.HashServer);
 				HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 				StreamReader read = new StreamReader( resp.GetResponseStream());
 				data = read.ReadToEnd();
 				//Console.WriteLine(data);
 				resp.Close();
-			}
-			catch(Exception ex){
-				Console.WriteLine ("ERROR: CANNOT READ HASHLIST: " + ex.Message + "\n" + ex.StackTrace);
-			}
+			
 			return data;
 		}
 

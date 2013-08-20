@@ -23,7 +23,7 @@ namespace Shared
 			if (File.Exists (Settings.LocalDirectory + fileName)) {
 				File.Delete (Settings.LocalDirectory + fileName);
 			}
-			try{
+
 				//make sure the requred directoreis exist
 				dir = Path.GetDirectoryName(Settings.LocalDirectory + fileName);
 				if(!Directory.Exists(dir)){
@@ -56,10 +56,7 @@ namespace Shared
 					file.Flush();
 					file.Close();
 				}
-			}
-			catch(Exception ex){
-				Console.WriteLine ("Cannot download file " + fileName + " because " + ex.Message);
-			}
+
 
 			return filesChanged;
 		}

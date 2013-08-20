@@ -16,62 +16,47 @@ namespace ClientWinForms
 {
 	public class MainForm:Form
 	{
-		Label HServer = new Label();
-		Label FServer = new Label();
-		Label Folder = new Label();
-		Label ConfigFile = new Label();
-		Label DeleteEnabled = new Label();
-
+		SettingsForm SettingsForm = new SettingsForm();
+		Button SettingsButton = new Button();
 		Button StartSync = new Button();
 		TextBox Console = new TextBox();
 		ProgressBar Progress = new ProgressBar();
+
 		public MainForm ()
 		{
 			this.SuspendLayout();
-			this.Width =768;
+			this.Width =512;
 			this.Font = new Font("monospaced", 12);
 
 			Settings.ReadConfigFile();
 
-			HServer.Text = "HASHES: " + Settings.HashServer;
-			HServer.Location = new Point(0,0);
-			HServer.Width = 512;
+			SettingsButton.Text = "Settings";
+			SettingsButton.Location = new Point(192,196);
+			SettingsButton.Width = 128;
+			SettingsButton.Height = 32;
+			SettingsButton.MouseClick += this.ShowSettings;
 
-			FServer.Text = "FTP: "+Settings.FTPServer;
-			FServer.Location = new Point(0,24);
-			FServer.Width = 512;
-
-			Folder.Text = Settings.LocalDirectory;//TODO Support relative directories?
-			Folder.Location = new Point(0,48);
-			Folder.Width = 768;
-
-			ConfigFile.Text = System.IO.Path.Combine(new string[]{Environment.CurrentDirectory, Settings.CONFIG_FILE});
-			ConfigFile.Location = new Point(0,72);
-			ConfigFile.Width = 768;
 
 			StartSync.Text = "Start Scan and Sync";
-			StartSync.Location = new Point(256,96);
+			StartSync.Location = new Point(128,32);
 			StartSync.Width = 256;
 			StartSync.Height = 32;
 			StartSync.MouseClick += this.RunSyncAndScan;
 
 
 			Console.Multiline =true;
-			Console.Text += "Setup completed\n";
-			Console.Location = new Point(0,136);
+			Console.Text += "Read Settings file\n";
+			Console.Location = new Point(0,64);
 			Console.Width = 768;
 			Console.Height =128;
 
-			DeleteEnabled.Text = "DELETE:"+Settings.RemoveLocalFileIfNoRemoteFile;
 
 
+			Progress.Location = new Point(0,96);
+			Progress.Width =512;
+			Progress.Height= 16;
 
-
-
-			this.Controls.Add(HServer);
-			this.Controls.Add(FServer);
-			this.Controls.Add(Folder);
-			this.Controls.Add(ConfigFile);
+			this.Controls.Add(SettingsButton);
 			this.Controls.Add(StartSync);
 			this.Controls.Add(Console);
 			this.Controls.Add (Progress);
@@ -88,13 +73,18 @@ namespace ClientWinForms
 				return;
 			}
 			StartSync.Enabled = false;
-
+			Dictionary<string,string> serverhashes;
 
 
 			//get the server hashlist
 			this.Console.Text += "Getting server hashes\n";
-			Dictionary<string,string> serverhashes = Http.GetHashList ();
+			try {
+				serverhashes = Http.GetHashList ();
 
+			} catch (Exception ex) {
+				this.Console.Text += "Error Reading Remote Hashes:"+ex.Message+Environment.NewLine;
+				return;
+			}
 
 			//hash all teh local files.
 			this.Console.Text += "Checking Local hashes\n";
@@ -125,12 +115,17 @@ namespace ClientWinForms
 				//ensure we didnt delte everything accidentally.
 				if (LocalData.HashList.Count > Settings.numFilesToRemoveWithNoWarning) {
 					shouldDelete = false;
-					this.Console.Text += (LocalData.HashList.Count + " Files Are flagged for deletion. this is greate than the limit of "+Settings.numFilesToRemoveWithNoWarning+" they willl not be removed\n");
+					if(MessageBox.Show (LocalData.HashList.Count + " Files Are flagged for deletion. Continue?") == System.Windows.Forms.DialogResult.OK){
+						shouldDelete =true;
+					}
+
+
 				}
 
 
 				//remove files
 				if(shouldDelete){
+					Console.Text+="Deleting files..."+Environment.NewLine;
 					foreach(KeyValuePair<string,SyncItem> kvp in LocalData.HashList){
 						File.Delete(Settings.LocalDirectory+kvp.Key);
 					}
@@ -156,6 +151,11 @@ namespace ClientWinForms
 			}
 
 			StartSync.Enabled = true;
+		}
+
+		public void ShowSettings(object a, MouseEventArgs e){
+			SettingsForm.ShowDialog();
+
 		}
 	}
 }

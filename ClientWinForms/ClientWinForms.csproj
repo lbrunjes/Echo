@@ -34,6 +34,7 @@
   <ItemGroup>
     <Compile Include="MainForm.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="SettingsForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
@@ -44,5 +45,8 @@
       <Project>{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.ini" />
   </ItemGroup>
 </Project>

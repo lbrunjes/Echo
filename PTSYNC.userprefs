@@ -1,6 +1,18 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClientWinForms/SettingsForm.cs">
+    <Files>
+      <File FileName="ClientWinForms/SettingsForm.cs" Line="55" Column="36" />
+      <File FileName="ClientWinForms/MainForm.cs" Line="45" Column="4" />
+      <File FileName="Shared/Http.cs" Line="37" Column="4" />
+      <File FileName="Shared/Ftp.cs" Line="59" Column="4" />
+      <File FileName="Shared/Settings.cs" Line="27" Column="44" />
+      <File FileName="Shared/SyncFile.cs" Line="1" Column="1" />
+      <File FileName="Shared/SyncFolder.cs" Line="1" Column="1" />
+      <File FileName="Shared/SyncItem.cs" Line="1" Column="1" />
+      <File FileName="Shared/SyncList.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
