@@ -12,7 +12,7 @@ namespace Shared
 {
 	public static class Settings
 	{
-
+		public bool HaveReadSettingsFile = false;
 		public static string FTPServer="ftp://127.0.0.1";
 		public static string HashServer="http://127.0.0.1/hashes.txt";
 		public static string HashFile="C:/inetpub/stuff/hashes.txt";
@@ -24,7 +24,7 @@ namespace Shared
 		public static int LoopTime = 1000*60 *2;
 
 		public const string CONFIG_FILE="../../Settings.ini";
-		public const string HEADER="#FILE CREATED BY TOOL  AT {0:yyyy MMM dd hh:mm:ss}";
+		public const string HEADER="#Seettings for Sync system\n#FILE CREATED BY TOOL AT {0:yyyy MMM dd hh:mm:ss}";
 
 		public static void ReadConfigFile ()
 		{
@@ -56,7 +56,8 @@ namespace Shared
 				}
 
 			}
-			Console.WriteLine ("Loaded: " + Settings.CONFIG_FILE);
+			//Console.WriteLine ("Loaded: " + Settings.CONFIG_FILE);
+			HaveReadSettingsFile =true;
 		}
 
 		static void ProcessConfig(string key, string data){

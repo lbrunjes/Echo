@@ -9,6 +9,7 @@ using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Shared;
+using System.IO;
 
 namespace ClientWinForms
 {
@@ -65,9 +66,12 @@ namespace ClientWinForms
 
 		public void SaveSettings (Object o, MouseEventArgs e)
 		{
-			Console.WriteLine(Settings.HEADER);
-			foreach (KeyValuePair<string,string> kvp in settingsdata) {
-				Console.WriteLine(kvp.Key+"="+kvp.Value);
+			using(StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.CONFIG_FILE))){
+
+				sw.WriteLine(Settings.HEADER);
+				foreach (KeyValuePair<string,string> kvp in settingsdata) {
+					sw.WriteLine(kvp.Key+"="+kvp.Value);
+				}
 			}
 		}
 	}

@@ -17,14 +17,28 @@ namespace Client
 
 		public static void Main (string[] args)
 		{
+			Dictionary<string,string> serverhashes =null;
+			SyncList LocalData= null;
+		
+
+
 			//read teh settings file
 			Settings.ReadConfigFile ();
 
 			//get the server hashlist
-			Dictionary<string,string> serverhashes = Http.GetHashList ();
-
+			try {
+				serverhashes = Http.GetHashList ();
+			} catch (Exception ex) {
+				Console.WriteLine ("Something went wrong gettin'  our remote hashes. Oops.\n" + ex.Message + "\n" + ex.StackTrace);
+				return;
+			}
 			//hash all teh local files.
-			SyncList LocalData = new SyncList (Settings.LocalDirectory);
+			try {
+				LocalData = new SyncList (Settings.LocalDirectory);
+			} catch (Exception ex) {
+				Console.WriteLine("Problems readin' local directory. Oops\n"+ex.Message + "\n"+ex.StackTrace);
+			}
+
 
 			List<string> FilesToDownload = new List<string> ();
 
@@ -75,7 +89,12 @@ namespace Client
 			//dowlonad htem from ftp
 			Ftp RemoteFtp = new Ftp ();
 			foreach (string fileName in FilesToDownload) {
+				try{
 				progress += Ftp.DownloadFile (fileName);
+				}
+				catch(Exception ex){
+					Console.WriteLine (String.Format("Couldn't download file from ye older FTP server{0}{1}{0}{2}",Environment.NewLine, ex.Message, ex.StackTrace));
+				}
 
 			}
 
