@@ -24,8 +24,8 @@ namespace Shared
 		public static int numFilesToRemoveWithNoWarning = 100;
 		public static int LoopTime = 1000*60 *2;
 
-		public const string CONFIG_FILE="../../Settings.ini";
-		public const string HEADER="#Seettings for Sync system\n#FILE CREATED BY TOOL AT {0:yyyy MMM dd hh:mm:ss}";
+		public const string CONFIG_FILE="Settings.ini";
+		public const string HEADER="#Settings for Sync system\n#FILE CREATED BY TOOL AT {0:yyyy MMM dd hh:mm:ss}";
 
 		public static void ReadConfigFile ()
 		{
