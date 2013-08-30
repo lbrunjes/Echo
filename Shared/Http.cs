@@ -16,17 +16,30 @@ namespace Shared
 {
 	public static class Http
 	{
-		public static Dictionary<string,string> GetHashList(){
-			Dictionary<string,string> Hashlist = new Dictionary<string,string> ();
+		public static Dictionary<string,SyncItem> GetHashList(){
+			Dictionary<string,SyncItem> Hashlist = new Dictionary<string,SyncItem> ();
 
 			//get remote hash data
 			string HashJSON = getHashData ();
 
 			//read JSON
-			JsonObject hashes = ParseObject (HashJSON);
+			JsonTextParser parser = new JsonTextParser ();
+			JsonObject hashes = parser.Parse(HashJSON);
 
 			foreach (JsonObject field in hashes as JsonObjectCollection) {
-				Hashlist.Add (field.Name, field.GetValue().ToString());
+		
+				if(field.GetValue().GetType().Name !="String" ){
+
+					List<JsonObject> obj  = (List<JsonObject>)field.GetValue();
+
+
+
+					SyncFile sf =new SyncFile(field.Name.ToString(), obj);		                                       
+					Hashlist.Add (field.Name, sf);
+				}
+				else{
+					Console.WriteLine(field.Name, field.GetValue().ToString());
+				}
 			}
 
 			return Hashlist;
@@ -45,11 +58,6 @@ namespace Shared
 			return data;
 		}
 
-		private static JsonObject ParseObject(string data){
-			JsonTextParser parser = new JsonTextParser ();
-				return parser.Parse(data);
-
-		}
 
 
 	}

@@ -30,9 +30,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Net.Json">
-      <HintPath>..\System.Net.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,5 +44,11 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="New Folder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\System.Net.Json\System.Net.Json.csproj">
+      <Project>{92A9D7E9-081A-44E1-BC46-3DFF2ACE072B}</Project>
+      <Name>System.Net.Json</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

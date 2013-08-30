@@ -32,8 +32,8 @@ namespace ClientWinForms
 			settingsdata.Add("LocalDirectory",Settings.LocalDirectory);
 			settingsdata.Add("LoopTime",Settings.LoopTime.ToString());
 			settingsdata.Add("DeleteWarningLevel",Settings.numFilesToRemoveWithNoWarning.ToString());
-			settingsdata.Add("RemotePassword",Settings.RemotePassword);
 			settingsdata.Add("RemoteUser",Settings.RemoteUser);
+			settingsdata.Add("RemotePassword",Settings.RemotePassword);
 			settingsdata.Add("RemoveLocalFiles",Settings.RemoveLocalFileIfNoRemoteFile.ToString());	
 			settingsdata.Add("ConfigFile",Settings.CONFIG_FILE);	
 
@@ -66,14 +66,23 @@ namespace ClientWinForms
 
 		public void SaveSettings (Object o, MouseEventArgs e)
 		{
-			using(StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.CONFIG_FILE))){
+			//set settings using settings data
 
-				sw.WriteLine(Settings.HEADER);
-				foreach (KeyValuePair<string,string> kvp in settingsdata) {
-					sw.WriteLine(kvp.Key+"="+kvp.Value);
-				}
-			}
+			Settings.FTPServer = settingsdata["FTPServer"];
+			Settings.HashServer = settingsdata["HashServer"];
+			Settings.RemoteUser = settingsdata["RemoteUser"];
+			Settings.RemotePassword = settingsdata["RemotePassword"];
+			Settings.RemoveLocalFileIfNoRemoteFile = settingsdata["RemoveLocalFiles"].ToLower() =="true";
+			Settings.LocalDirectory = settingsdata["LocalDirectory"];
+
+			int.TryParse(settingsdata["LoopTime"],out Settings.LoopTime);
+			int.TryParse(settingsdata["DeleteWarningLevel"],out Settings.numFilesToRemoveWithNoWarning);
+
+
+
+			Settings.WriteConfigFile();
 		}
 	}
 }
+
 

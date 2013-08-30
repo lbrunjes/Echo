@@ -17,7 +17,7 @@ namespace Client
 
 		public static void Main (string[] args)
 		{
-			Dictionary<string,string> serverhashes =null;
+			Dictionary<string,SyncItem> serverhashes =null;
 			SyncList LocalData= null;
 		
 
@@ -43,14 +43,14 @@ namespace Client
 			List<string> FilesToDownload = new List<string> ();
 
 			//get the delta list
-			foreach(KeyValuePair<string,string> kvp in serverhashes){
+			foreach(KeyValuePair<string,SyncItem> kvp in serverhashes){
 			
 				//ignore metadata.
 				if (kvp.Key == "__Server" || kvp.Key == "__DateGeneratedUTC") {
 					;
 				} else {
 					//remove files that dont exist server side if set to
-					if (! LocalData.HashList.ContainsKey (kvp.Key) || kvp.Value != LocalData.HashList [kvp.Key].Hash) {
+					if (! LocalData.HashList.ContainsKey (kvp.Key) || kvp.Value.Hash != LocalData.HashList [kvp.Key].Hash) {
 						FilesToDownload.Add (kvp.Key);
 						LocalData.HashList.Remove (kvp.Key);
 					}
@@ -93,7 +93,7 @@ namespace Client
 				progress += Ftp.DownloadFile (fileName);
 				}
 				catch(Exception ex){
-					Console.WriteLine (String.Format("Couldn't download file from ye older FTP server{0}{1}{0}{2}",Environment.NewLine, ex.Message, ex.StackTrace));
+					Console.WriteLine (String.Format("Couldn't download file:{1}",Environment.NewLine, ex.Message, ex.StackTrace));
 				}
 
 			}

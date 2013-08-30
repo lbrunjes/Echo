@@ -12,10 +12,11 @@ namespace Shared
 {
 	public static class Settings
 	{
-		public bool HaveReadSettingsFile = false;
+		public static bool HaveReadSettingsFile = false;
 		public static string FTPServer="ftp://127.0.0.1";
 		public static string HashServer="http://127.0.0.1/hashes.txt";
 		public static string HashFile="C:/inetpub/stuff/hashes.txt";
+		public static string HashCache ="hashcache.txt";
 		public static string RemoteUser="ANNON";
 		public static string RemotePassword ="IM_A_PT_I_SWEAR";
 		public static string LocalDirectory = "C:\\Users\\Confused\\Dropbox\\inprogress\\BeatDown";
@@ -55,7 +56,11 @@ namespace Shared
 					ProcessConfig(key,data);
 				}
 
+
+
 			}
+
+			//Check the paths to ensue they end in /?
 			//Console.WriteLine ("Loaded: " + Settings.CONFIG_FILE);
 			HaveReadSettingsFile =true;
 		}
@@ -65,14 +70,17 @@ namespace Shared
 			//TODO data validation?
 
 			switch (key) {
-			case "looptime":
-				int.TryParse(data, out LoopTime);
-				break;
+			
 			case "directory":
+			case "localdirectory":
 				LocalDirectory = data;
 				break;
 			case "hashurl":
+			case "hashserver":
 				HashServer = data;
+				break;
+			case "hashfile":
+				HashFile = data;
 				break;
 			case "ftpserver":
 				FTPServer = data;
@@ -84,7 +92,14 @@ namespace Shared
 				RemotePassword = data;
 				break;
 			case "removeifmissing":
+			case "removelocalfiles":
 				RemoveLocalFileIfNoRemoteFile = data.ToLower ().Trim () == "true";
+				break;
+			case "looptime":
+				int.TryParse(data,out Settings.LoopTime);
+				break;
+			case "deletewarninglevel":
+				int.TryParse(data,out Settings.numFilesToRemoveWithNoWarning);
 				break;
 			default:
 				Console.WriteLine ("Invalid Config key: " + key);
@@ -92,6 +107,17 @@ namespace Shared
 
 
 			}
+		}
+
+		public static void WriteConfigFile(){
+			using(StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.CONFIG_FILE))){
+
+				sw.WriteLine(String.Format(Settings.HEADER, DateTime.Now));
+				/*foreach (KeyValuePair<string,string> kvp in settingsdata) {
+					sw.WriteLine(kvp.Key+"="+kvp.Value);
+				}*/
+			}
+			Settings.ReadConfigFile();
 		}
 
 	}

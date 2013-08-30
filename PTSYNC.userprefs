@@ -1,20 +1,29 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClientWinForms/SettingsForm.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Shared/SyncList.cs">
     <Files>
-      <File FileName="ClientWinForms/SettingsForm.cs" Line="55" Column="36" />
-      <File FileName="ClientWinForms/MainForm.cs" Line="45" Column="4" />
-      <File FileName="Shared/Http.cs" Line="37" Column="4" />
-      <File FileName="Shared/Ftp.cs" Line="59" Column="4" />
-      <File FileName="Shared/Settings.cs" Line="27" Column="44" />
-      <File FileName="Shared/SyncFile.cs" Line="1" Column="1" />
-      <File FileName="Shared/SyncFolder.cs" Line="1" Column="1" />
-      <File FileName="Shared/SyncItem.cs" Line="1" Column="1" />
-      <File FileName="Shared/SyncList.cs" Line="1" Column="1" />
+      <File FileName="ClientWinForms/MainForm.cs" Line="106" Column="70" />
+      <File FileName="Shared/Http.cs" Line="22" Column="26" />
+      <File FileName="Shared/Ftp.cs" Line="20" Column="1" />
+      <File FileName="Shared/Settings.cs" Line="19" Column="51" />
+      <File FileName="Shared/SyncList.cs" Line="49" Column="36" />
+      <File FileName="Shared/SyncItem.cs" Line="59" Column="1" />
+      <File FileName="Client/Main.cs" Line="61" Column="28" />
+      <File FileName="Server/Main.cs" Line="21" Column="1" />
+      <File FileName="Server/Settings.ini" Line="1" Column="1" />
+      <File FileName="Shared/SyncFile.cs" Line="36" Column="15" />
+      <File FileName="manatee/manatee.json/Json.sln" Line="16" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Server/Main.cs" line="21" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="115" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="130" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="99" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/Http.cs" line="44" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/Http.cs" line="34" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

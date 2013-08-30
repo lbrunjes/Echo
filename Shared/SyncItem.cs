@@ -9,6 +9,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Security.Cryptography;
+using System.Net.Json;
+using System.Globalization;
+using System.Collections.Generic;
 
 namespace Shared
 {
@@ -31,6 +34,32 @@ namespace Shared
 
 		protected bool isDownloading = false;
 		public bool IsDownloading{ get { return isDownloading; } }
+		public SyncItem(){
+
+		}
+		public SyncItem (string _path, JsonObject obj)
+		{
+			path = _path;
+			foreach (JsonObject field in obj as JsonObjectCollection) {
+
+				if(field.Name == "hash"){
+					this.hash = (string)field.GetValue();
+				}
+				if(field.Name == "time"){
+
+					DateTime.TryParseExact(
+						(string)field.GetValue(), 
+						"yyyy-MM-dd hh:mm:ss",
+						CultureInfo.InvariantCulture,
+						DateTimeStyles.AssumeUniversal,
+						out this.ModifiedDate);
+
+				}
+
+			}
+
+		}
+	
 
 		public bool CheckForModified(){
 			return File.GetLastWriteTimeUtc (Path) != ModifiedDate;

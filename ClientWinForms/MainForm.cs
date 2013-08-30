@@ -49,6 +49,7 @@ namespace ClientWinForms
 			Console.Location = new Point(0,64);
 			Console.Width = 768;
 			Console.Height =128;
+			Console.ScrollBars = ScrollBars.Both;
 
 
 
@@ -70,19 +71,21 @@ namespace ClientWinForms
 		public void RunSyncAndScan (Object o, MouseEventArgs args)
 		{
 			if (!StartSync.Enabled) {
+				this.Console.Text += "cannot sync now";
 				return;
 			}
 			StartSync.Enabled = false;
-			Dictionary<string,string> serverhashes;
+			Dictionary<string,SyncItem> serverhashes;
 
 
 			//get the server hashlist
-			this.Console.Text += "Getting server hashes\n";
+			this.Console.Text += "Getting server hashes ("+Settings.HashServer+")\n";
 			try {
 				serverhashes = Http.GetHashList ();
 
 			} catch (Exception ex) {
 				this.Console.Text += "Error Reading Remote Hashes:"+ex.Message+Environment.NewLine;
+				StartSync.Enabled = true;
 				return;
 			}
 
@@ -93,14 +96,14 @@ namespace ClientWinForms
 			List<string> FilesToDownload = new List<string> ();
 
 			//get the delta list
-			foreach(KeyValuePair<string,string> kvp in serverhashes){
+			foreach(KeyValuePair<string,SyncItem> kvp in serverhashes){
 			
 				//ignore metadata.
 				if (kvp.Key == "__Server" || kvp.Key == "__DateGeneratedUTC") {
 					;
 				} else {
 					//remove files that dont exist server side if set to
-					if (! LocalData.HashList.ContainsKey (kvp.Key) || kvp.Value != LocalData.HashList [kvp.Key].Hash) {
+					if (! LocalData.HashList.ContainsKey (kvp.Key) || kvp.Value.Hash != LocalData.HashList [kvp.Key].Hash) {
 						FilesToDownload.Add (kvp.Key);
 						LocalData.HashList.Remove (kvp.Key);
 					}
@@ -139,9 +142,16 @@ namespace ClientWinForms
 			//dowlonad htem from ftp
 		
 			foreach (string fileName in FilesToDownload) {
+				try{
 				progress += Ftp.DownloadFile (fileName);
-				Progress.Value =progress;
 
+				Progress.Value =progress;
+				}
+				catch(Exception ex){
+					this.Console.Text += String.Format("Error Getting file {1}: {0} ",
+					                                   ex.Message, fileName);
+
+				}
 			}
 
 			Console.Text +=  ("Downloaded "+progress+"/"+ FilesToDownload.Count +" File(s)"+Environment.NewLine);
