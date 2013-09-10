@@ -162,7 +162,7 @@ namespace ClientWinForms
 
 				foreach (string fileName in FilesToDownload) {
 					try{
-					progress += Http.DownloadFile (fileName);
+						progress += Http.DownloadFile (fileName);
 					}
 					catch(Exception ex){
 						Console.Text +=  (String.Format("Couldn't download file:{1}{0}",Environment.NewLine, ex.Message, ex.StackTrace));

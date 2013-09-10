@@ -90,6 +90,7 @@ namespace Client
 
 				//dowl	onad htem from s3
 			case Settings.DownloadTypes.S3:
+				new AmazonS3();
 
 				foreach (string fileName in FilesToDownload) {
 					try{

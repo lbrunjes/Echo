@@ -7,26 +7,31 @@
 //
 using System;
 using System.IO;
-using LitS3;
+using Amazon.S3;
+using Amazon.S3.Model;
 
 namespace Shared
 {
 	public class AmazonS3
 	{
-		public static S3Service s3 =null;
+		public static AmazonS3Client s3 =null;
+		public AmazonS3 ()
+		{
+
+			s3 = new AmazonS3Client (Settings.s3IDKey, Settings.s3SecretKey);
+				ListObjectsRequest lo = new ListObjectsRequest();
+				lo.BucketName = Settings.s3Bucket;
+
+				ListObjectsResponse lr =  s3.ListObjects(lo);
+
+				foreach(S3Object obj in lr.S3Objects){
+					Console.WriteLine(obj.Key);
+				}
+
+		}
 
 		public static int DownloadFile (string fileName)
 		{
-			if (s3 == null) {
-				s3 = new S3Service();
-				s3.Host = Settings.s3Host;
-				s3.AccessKeyID = Settings.s3Authkey;
-				s3.BeforeAuthorize += (sender, e) =>
-				{
-				    e.Request.ServicePoint.ConnectionLimit = int.MaxValue;
-				};
-			}
-
 
 			int filesChanged = 0;
 			string dir = "";
@@ -36,17 +41,24 @@ namespace Shared
 			}
 
 			//make sure the requred directoreis exist
-			dir = Path.GetDirectoryName(Settings.LocalDirectory + fileName);
-			if(!Directory.Exists(dir)){
-				Console.WriteLine("Creating dir");
-				Directory.CreateDirectory(dir);
+			dir = Path.GetDirectoryName (Settings.LocalDirectory + fileName);
+			if (!Directory.Exists (dir)) {
+				Console.WriteLine ("Creating dir");
+				Directory.CreateDirectory (dir);
 			}
+			GetObjectRequest r = new GetObjectRequest ();
+			r.BucketName = Settings.s3Bucket;
+			r.Key = fileName.Substring (1);//use substring so we elminate the /
 
-
-			s3.GetObject(Settings.s3Bucket, fileName, Settings.LocalDirectory + fileName);
+			using (GetObjectResponse response = s3.GetObject(r)) {
+				using(StreamReader reader = new StreamReader(response.ResponseStream)){
 				
-			filesChanged++;
+					File.WriteAllText(Settings.LocalDirectory+ fileName, reader.ReadToEnd());
 
+				
+					filesChanged++;
+				}
+			}
 
 
 			return filesChanged;

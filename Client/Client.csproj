@@ -47,8 +47,5 @@
     <Reference Include="System.Net" />
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="LitS3">
-      <HintPath>..\LitS3.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

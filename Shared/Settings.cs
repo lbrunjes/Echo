@@ -23,11 +23,12 @@ namespace Shared
 		public static bool RemoveLocalFileIfNoRemoteFile = false;
 		public static int numFilesToRemoveWithNoWarning = 100;
 		public static int LoopTime = 1000*60 *2;
-		public static string s3Authkey = "022QF06E7MXBSH9DHM02";
+		public static string s3IDKey = "022QF06E7MXBSH9DHM02";
+		public static string s3SecretKey = "022QF06E7MXBSH9DHM02";
 		public static string s3Bucket = "housemark";
 		public static string s3Host = "s3-website-us-east-1.amazonaws.com";
 		public enum DownloadTypes{S3,FTP,HTTP};
-		public static DownloadTypes DownloadType = DownloadTypes.S3;
+		public static DownloadTypes DownloadType = DownloadTypes.FTP;
 
 		public const string CONFIG_FILE="Settings.ini";
 		public const string HEADER="#Settings for Sync system\n#FILE CREATED BY TOOL AT {0:yyyy MMM dd hh:mm:ss}";
@@ -98,16 +99,22 @@ namespace Shared
 				break;
 			case "removeifmissing":
 			case "removelocalfiles":
+			case "removelocalfileifnoremotefile":
 				RemoveLocalFileIfNoRemoteFile = data.ToLower ().Trim () == "true";
 				break;
 			case "looptime":
 				int.TryParse(data,out Settings.LoopTime);
 				break;
 			case "deletewarninglevel":
+			case "numfilestoremovewithnowarning":
 				int.TryParse(data,out Settings.numFilesToRemoveWithNoWarning);
 				break;
 			case "s3authkey":
-				s3Authkey = data.Trim();
+			case "s3idkey":
+				s3IDKey = data.Trim();
+				break;
+			case "s3secretkey":
+				s3SecretKey = data.Trim ();
 				break;
 			case "s3bucket":
 				s3Bucket = data.Trim();
@@ -117,13 +124,13 @@ namespace Shared
 				break;
 			case "downloadtype":
 
-				if(data =="ftp"){
+				if(data.ToLower() =="ftp"){
 					DownloadType = DownloadTypes.FTP;
 				}
-				if(data =="s3"){
+				if(data.ToLower() =="s3"){
 					DownloadType = DownloadTypes.S3;
 				}
-				if(data == "http"){
+				if(data.ToLower() == "http"){
 					DownloadType = DownloadTypes.HTTP;
 				}
 
@@ -144,7 +151,9 @@ namespace Shared
 				System.Reflection.FieldInfo[] props = typeof(Shared.Settings).GetFields();
 
 				foreach(System.Reflection.FieldInfo prop in props){
-					sw.WriteLine(String.Format("{0}={1}",prop.Name, prop.GetValue(null)));
+					if(prop.Name != "CONFIG_FILE" &&prop.Name != "HEADER" && prop.Name!= "HaveReadSettingsFile"){
+						sw.WriteLine(String.Format("{0}={1}",prop.Name, prop.GetValue(null)));
+					}
 				}
 
 			}

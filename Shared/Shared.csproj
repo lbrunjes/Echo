@@ -30,8 +30,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="LitS3">
-      <HintPath>..\LitS3.dll</HintPath>
+    <Reference Include="AWSSDK">
+      <HintPath>..\AWSSDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

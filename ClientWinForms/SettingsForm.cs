@@ -26,16 +26,13 @@ namespace ClientWinForms
 			this.Width=512;
 			this.Height=340;
 
-			settingsdata.Add("HashServer",Settings.HashServer);
-			settingsdata.Add("HashFile",Settings.HashFile);
-			settingsdata.Add("FTPServer",Settings.FTPServer);
-			settingsdata.Add("LocalDirectory",Settings.LocalDirectory);
-			settingsdata.Add("LoopTime",Settings.LoopTime.ToString());
-			settingsdata.Add("DeleteWarningLevel",Settings.numFilesToRemoveWithNoWarning.ToString());
-			settingsdata.Add("RemoteUser",Settings.RemoteUser);
-			settingsdata.Add("RemotePassword",Settings.RemotePassword);
-			settingsdata.Add("RemoveLocalFiles",Settings.RemoveLocalFileIfNoRemoteFile.ToString());	
-			settingsdata.Add("ConfigFile",Settings.CONFIG_FILE);	
+			System.Reflection.FieldInfo[] props = typeof(Shared.Settings).GetFields();
+
+				foreach(System.Reflection.FieldInfo prop in props){
+					if(prop.Name != "CONFIG_FILE" &&prop.Name != "HEADER" && prop.Name!= "HaveReadSettingsFile"){
+						settingsdata.Add(prop.Name, prop.GetValue(null).ToString());
+					}
+				}
 
 			SettingsList.DataSource = new BindingSource(settingsdata,null);
 			SettingsList.Width =512;

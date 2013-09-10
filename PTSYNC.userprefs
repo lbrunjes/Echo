@@ -1,28 +1,20 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Shared/Settings.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Shared/s3.cs">
     <Files>
-      <File FileName="ClientWinForms/Settings.ini" Line="1" Column="1" />
-      <File FileName="ClientWinForms/SettingsForm.cs" Line="1" Column="1" />
-      <File FileName="Shared/Settings.cs" Line="99" Column="35" />
-      <File FileName="ClientWinForms/MainForm.cs" Line="52" Column="22" />
-      <File FileName="ClientWinForms/EntryPoint.cs" Line="20" Column="4" />
-      <File FileName="Client/Main.cs" Line="37" Column="1" />
-      <File FileName="Shared/Http.cs" Line="33" Column="1" />
-      <File FileName="Shared/SyncList.cs" Line="46" Column="7" />
-      <File FileName="System.Net.Json/JsonTextParser.cs" Line="68" Column="1" />
-      <File FileName="System.Net.Json/JsonObject.cs" Line="12" Column="1" />
-      <File FileName="System.Net.Json/JsonCollection.cs" Line="38" Column="1" />
-      <File FileName="System.Net.Json/JsonObjectCollection.cs" Line="16" Column="1" />
+      <File FileName="Client/Main.cs" Line="93" Column="5" />
+      <File FileName="Shared/s3.cs" Line="33" Column="4" />
+      <File FileName="Shared/Settings.cs" Line="117" Column="32" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Client" expanded="True" />
           <Node name="ClientWinForms" expanded="True" />
-          <Node name="Server" expanded="True" selected="True" />
-          <Node name="Shared" expanded="True" />
-          <Node name="System.Net.Json" expanded="True" />
+          <Node name="Server" expanded="True" />
+          <Node name="Shared" expanded="True">
+            <Node name="s3.cs" selected="True" />
+          </Node>
         </State>
       </Pad>
     </Pads>
@@ -35,10 +27,9 @@
       <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="101" />
       <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="31" />
       <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="25" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="36" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/SyncList.cs" line="44" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/SyncList.cs" line="56" />
       <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/SyncList.cs" line="98" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/s3.cs" line="51" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/s3.cs" line="49" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

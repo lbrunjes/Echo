@@ -77,9 +77,10 @@ namespace Shared
 
 
 					HttpWebRequest http = (HttpWebRequest)WebRequest.Create (Settings.FTPServer + fileName.Replace('\\','/'));
+					
 
 					http.Credentials = new NetworkCredential (Settings.RemoteUser, Settings.RemotePassword);
-					FtpWebResponse response = (FtpWebResponse)http.GetResponse ();
+					HttpWebResponse response = (HttpWebResponse)http.GetResponse ();
 
 					Stream ftpdata = response.GetResponseStream();
 					Byte[] buffer = new byte[2048];
