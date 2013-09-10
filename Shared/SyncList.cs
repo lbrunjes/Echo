@@ -42,6 +42,8 @@ namespace Shared
 					JsonObject hashes = new JsonTextParser().Parse(File.ReadAllText(Settings.HashCache));
 
 					foreach (JsonObject field in hashes as JsonObjectCollection) {
+
+
 						HashList.Add (field.Name, new SyncFile(field.Name,(JsonObject)field.GetValue()));
 					}
 				}

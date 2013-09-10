@@ -84,20 +84,51 @@ namespace Client
 			}
 
 
-			Console.WriteLine ("Need to download: " + FilesToDownload.Count + " files from " +Settings.FTPServer);
+			Console.WriteLine ("Need to download: " + FilesToDownload.Count +" from " +Settings.DownloadType );
 			int progress = 0;
-			//dowlonad htem from ftp
-			Ftp RemoteFtp = new Ftp ();
-			foreach (string fileName in FilesToDownload) {
-				try{
-				progress += Ftp.DownloadFile (fileName);
+			switch(Settings.DownloadType){
+
+				//dowl	onad htem from s3
+			case Settings.DownloadTypes.S3:
+
+				foreach (string fileName in FilesToDownload) {
+					try{
+						progress += AmazonS3.DownloadFile(fileName);
+					}
+					catch(Exception ex){
+						Console.WriteLine (String.Format("Couldn't download file:{1}\n {2}",Environment.NewLine, ex.Message, ex.StackTrace));
+					}
+
 				}
-				catch(Exception ex){
-					Console.WriteLine (String.Format("Couldn't download file:{1}",Environment.NewLine, ex.Message, ex.StackTrace));
+				break;
+			case Settings.DownloadTypes.FTP:
+				Ftp RemoteFtp = new Ftp ();
+				foreach (string fileName in FilesToDownload) {
+					try{
+					progress += Ftp.DownloadFile (fileName);
+					}
+					catch(Exception ex){
+						Console.WriteLine (String.Format("Couldn't download file:{1}",Environment.NewLine, ex.Message, ex.StackTrace));
+					}
+
 				}
+				break;
+			
+			case Settings.DownloadTypes.HTTP:
+			
+				foreach (string fileName in FilesToDownload) {
+					try{
+					progress += Http.DownloadFile (fileName);
+					}
+					catch(Exception ex){
+						Console.WriteLine (String.Format("Couldn't download file:{1}",Environment.NewLine, ex.Message, ex.StackTrace));
+					}
+
+				}
+
+				break;
 
 			}
-
 			Console.WriteLine ("Downloaded "+progress+"/"+ FilesToDownload.Count +" File");
 
 			if (progress != FilesToDownload.Count) {

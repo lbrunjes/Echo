@@ -1,28 +1,44 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Shared/SyncList.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Shared/Settings.cs">
     <Files>
-      <File FileName="ClientWinForms/MainForm.cs" Line="106" Column="70" />
-      <File FileName="Shared/Http.cs" Line="22" Column="26" />
-      <File FileName="Shared/Ftp.cs" Line="20" Column="1" />
-      <File FileName="Shared/Settings.cs" Line="19" Column="51" />
-      <File FileName="Shared/SyncList.cs" Line="49" Column="36" />
-      <File FileName="Shared/SyncItem.cs" Line="59" Column="1" />
-      <File FileName="Client/Main.cs" Line="61" Column="28" />
-      <File FileName="Server/Main.cs" Line="21" Column="1" />
-      <File FileName="Server/Settings.ini" Line="1" Column="1" />
-      <File FileName="Shared/SyncFile.cs" Line="36" Column="15" />
-      <File FileName="manatee/manatee.json/Json.sln" Line="16" Column="18" />
+      <File FileName="ClientWinForms/Settings.ini" Line="1" Column="1" />
+      <File FileName="ClientWinForms/SettingsForm.cs" Line="1" Column="1" />
+      <File FileName="Shared/Settings.cs" Line="99" Column="35" />
+      <File FileName="ClientWinForms/MainForm.cs" Line="52" Column="22" />
+      <File FileName="ClientWinForms/EntryPoint.cs" Line="20" Column="4" />
+      <File FileName="Client/Main.cs" Line="37" Column="1" />
+      <File FileName="Shared/Http.cs" Line="33" Column="1" />
+      <File FileName="Shared/SyncList.cs" Line="46" Column="7" />
+      <File FileName="System.Net.Json/JsonTextParser.cs" Line="68" Column="1" />
+      <File FileName="System.Net.Json/JsonObject.cs" Line="12" Column="1" />
+      <File FileName="System.Net.Json/JsonCollection.cs" Line="38" Column="1" />
+      <File FileName="System.Net.Json/JsonObjectCollection.cs" Line="16" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Client" expanded="True" />
+          <Node name="ClientWinForms" expanded="True" />
+          <Node name="Server" expanded="True" selected="True" />
+          <Node name="Shared" expanded="True" />
+          <Node name="System.Net.Json" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Server/Main.cs" line="21" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="115" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="130" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="99" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/Http.cs" line="44" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/Http.cs" line="34" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="117" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="132" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="101" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="31" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="25" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="36" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/SyncList.cs" line="44" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/SyncList.cs" line="56" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/SyncList.cs" line="98" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

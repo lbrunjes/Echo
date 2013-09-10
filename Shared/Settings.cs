@@ -15,14 +15,19 @@ namespace Shared
 		public static bool HaveReadSettingsFile = false;
 		public static string FTPServer="ftp://127.0.0.1";
 		public static string HashServer="http://127.0.0.1/hashes.txt";
-		public static string HashFile="C:/inetpub/stuff/hashes.txt";
+		public static string HashFile="I_did_not_set_the_key_hashfile_in_Settings.ini.txt";
 		public static string HashCache ="hashcache.txt";
 		public static string RemoteUser="ANNON";
 		public static string RemotePassword ="IM_A_PT_I_SWEAR";
-		public static string LocalDirectory = "C:\\Users\\Confused\\Dropbox\\inprogress\\BeatDown";
+		public static string LocalDirectory = "I_did_not_set__LocalDirectory_in_settings.ini/";
 		public static bool RemoveLocalFileIfNoRemoteFile = false;
 		public static int numFilesToRemoveWithNoWarning = 100;
 		public static int LoopTime = 1000*60 *2;
+		public static string s3Authkey = "022QF06E7MXBSH9DHM02";
+		public static string s3Bucket = "housemark";
+		public static string s3Host = "s3-website-us-east-1.amazonaws.com";
+		public enum DownloadTypes{S3,FTP,HTTP};
+		public static DownloadTypes DownloadType = DownloadTypes.S3;
 
 		public const string CONFIG_FILE="Settings.ini";
 		public const string HEADER="#Settings for Sync system\n#FILE CREATED BY TOOL AT {0:yyyy MMM dd hh:mm:ss}";
@@ -101,6 +106,29 @@ namespace Shared
 			case "deletewarninglevel":
 				int.TryParse(data,out Settings.numFilesToRemoveWithNoWarning);
 				break;
+			case "s3authkey":
+				s3Authkey = data.Trim();
+				break;
+			case "s3bucket":
+				s3Bucket = data.Trim();
+				break;
+			case "s3host":
+				s3Host = data.Trim ();
+				break;
+			case "downloadtype":
+
+				if(data =="ftp"){
+					DownloadType = DownloadTypes.FTP;
+				}
+				if(data =="s3"){
+					DownloadType = DownloadTypes.S3;
+				}
+				if(data == "http"){
+					DownloadType = DownloadTypes.HTTP;
+				}
+
+
+				break;
 			default:
 				Console.WriteLine ("Invalid Config key: " + key);
 				break;
@@ -113,9 +141,12 @@ namespace Shared
 			using(StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.CONFIG_FILE))){
 
 				sw.WriteLine(String.Format(Settings.HEADER, DateTime.Now));
-				/*foreach (KeyValuePair<string,string> kvp in settingsdata) {
-					sw.WriteLine(kvp.Key+"="+kvp.Value);
-				}*/
+				System.Reflection.FieldInfo[] props = typeof(Shared.Settings).GetFields();
+
+				foreach(System.Reflection.FieldInfo prop in props){
+					sw.WriteLine(String.Format("{0}={1}",prop.Name, prop.GetValue(null)));
+				}
+
 			}
 			Settings.ReadConfigFile();
 		}

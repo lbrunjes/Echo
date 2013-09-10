@@ -16,7 +16,7 @@ namespace ClientWinForms
 {
 	public class MainForm:Form
 	{
-		SettingsForm SettingsForm = new SettingsForm();
+		SettingsForm SettingsForm =null;
 		Button SettingsButton = new Button();
 		Button StartSync = new Button();
 		TextBox Console = new TextBox();
@@ -29,6 +29,8 @@ namespace ClientWinForms
 			this.Font = new Font("monospaced", 12);
 
 			Settings.ReadConfigFile();
+
+			SettingsForm = new SettingsForm();
 
 			SettingsButton.Text = "Settings";
 			SettingsButton.Location = new Point(192,196);
@@ -136,22 +138,51 @@ namespace ClientWinForms
 			}
 
 
-			this.Console.Text += ("Need to download: " + FilesToDownload.Count + " files from " +Settings.FTPServer+Environment.NewLine);
+			this.Console.Text += ("Need to download: " + FilesToDownload.Count + " files from " +Settings.DownloadType+Environment.NewLine);
 			Progress.Maximum = FilesToDownload.Count;
 			int progress = 0;
-			//dowlonad htem from ftp
-		
-			foreach (string fileName in FilesToDownload) {
-				try{
-				progress += Ftp.DownloadFile (fileName);
 
-				Progress.Value =progress;
+			switch(Settings.DownloadType){
+				//dowlonad htem from ftp
+			case  Settings.DownloadTypes.FTP:
+				foreach (string fileName in FilesToDownload) {
+					try{
+					progress += Ftp.DownloadFile (fileName);
+
+					Progress.Value =progress;
+					}
+					catch(Exception ex){
+						this.Console.Text += String.Format("Error Getting file {1}: {0} ",
+						                                   ex.Message, fileName);
+
+					}
 				}
-				catch(Exception ex){
-					this.Console.Text += String.Format("Error Getting file {1}: {0} ",
-					                                   ex.Message, fileName);
+				break;
+				case Settings.DownloadTypes.HTTP:
+
+				foreach (string fileName in FilesToDownload) {
+					try{
+					progress += Http.DownloadFile (fileName);
+					}
+					catch(Exception ex){
+						Console.Text +=  (String.Format("Couldn't download file:{1}{0}",Environment.NewLine, ex.Message, ex.StackTrace));
+					}
 
 				}
+
+				break;
+			case Settings.DownloadTypes.S3:
+
+				foreach (string fileName in FilesToDownload) {
+					try{
+						progress += AmazonS3.DownloadFile(fileName);
+					}
+					catch(Exception ex){
+						Console.Text +=  (String.Format("Couldn't download file:{1}{0}",Environment.NewLine, ex.Message, ex.StackTrace));
+					}
+
+				}
+				break;
 			}
 
 			Console.Text +=  ("Downloaded "+progress+"/"+ FilesToDownload.Count +" File(s)"+Environment.NewLine);
