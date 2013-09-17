@@ -40,12 +40,19 @@ There is a GUI based client as well. it allows editing and saving of settings fr
 
 However, it also uses the folling Settings that are not used by the server:
 
-FTPServer -  exactly what it sounds like
+FTPServer - server to use for ftp downloads
+HTTPServer - server to use for http downloads
 DeleteWarningLeveL - number of files to delte before warning the user
 RemoteUSer - the username for the ftp server
 RemotePassword - the password for the ftp server
 RemoveLocalFiles - delete files that do not exist on the server must be "true" to delete files.
+DownloadType -  the server/authentication method to sue for downloads: (s3, http, ftp)
 
+THESE ARE USED BY PT
+s3Secretkey -  your amazon secret key
+s3IdKey - you amazon id key
+s3Bucket - the s3 instance to connect top
+DownloadType=s3
 
 
 TODO

@@ -7,29 +7,37 @@
 //
 using System;
 using System.IO;
+using System.Security;
+using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 
 namespace Shared
 {
+
+
+	[SecurityCriticalAttribute]
 	public class AmazonS3
 	{
 		public static AmazonS3Client s3 =null;
 		public AmazonS3 ()
 		{
 
-			s3 = new AmazonS3Client (Settings.s3IDKey, Settings.s3SecretKey);
-				ListObjectsRequest lo = new ListObjectsRequest();
-				lo.BucketName = Settings.s3Bucket;
+			s3 = new  AmazonS3Client (Settings.s3IDKey, Settings.s3SecretKey);	
 
-				ListObjectsResponse lr =  s3.ListObjects(lo);
+			/*ListObjectsRequest req = new ListObjectsRequest ();
+			req.BucketName = Settings.s3Bucket;
+			Console.Write("listing objects: ");
+			using (ListObjectsResponse r = s3.ListObjects(req)) {
+				Console.WriteLine(r.S3Objects.Count);
 
-				foreach(S3Object obj in lr.S3Objects){
-					Console.WriteLine(obj.Key);
-				}
+			}*/
 
 		}
-
+		public bool testAuth(){
+			return true;
+		}
+		[SecurityCriticalAttribute]
 		public static int DownloadFile (string fileName)
 		{
 
@@ -49,14 +57,16 @@ namespace Shared
 			GetObjectRequest r = new GetObjectRequest ();
 			r.BucketName = Settings.s3Bucket;
 			r.Key = fileName.Substring (1);//use substring so we elminate the /
+		
 
 			using (GetObjectResponse response = s3.GetObject(r)) {
-				using(StreamReader reader = new StreamReader(response.ResponseStream)){
-				
-					File.WriteAllText(Settings.LocalDirectory+ fileName, reader.ReadToEnd());
+				using (FileStream file  = File.OpenWrite(Settings.LocalDirectory+fileName)) {
+					using (Stream reader = response.ResponseStream) {
+					
+						reader.CopyTo (file);
 
-				
-					filesChanged++;
+						filesChanged++;
+					}
 				}
 			}
 

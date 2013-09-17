@@ -14,6 +14,7 @@ namespace Shared
 	{
 		public static bool HaveReadSettingsFile = false;
 		public static string FTPServer="ftp://127.0.0.1";
+		public static string HTTPServer = "http://127.0.0.1";
 		public static string HashServer="http://127.0.0.1/hashes.txt";
 		public static string HashFile="I_did_not_set_the_key_hashfile_in_Settings.ini.txt";
 		public static string HashCache ="hashcache.txt";
@@ -30,17 +31,18 @@ namespace Shared
 		public enum DownloadTypes{S3,FTP,HTTP};
 		public static DownloadTypes DownloadType = DownloadTypes.FTP;
 
-		public const string CONFIG_FILE="Settings.ini";
+		public const string CONFIG_FILE_CLIENT="clientSettings.ini";
+		public const string CONFIG_FILE_SERVER="serverSettings.ini";
 		public const string HEADER="#Settings for Sync system\n#FILE CREATED BY TOOL AT {0:yyyy MMM dd hh:mm:ss}";
 
-		public static void ReadConfigFile ()
+		public static void ReadConfigFile (string configfile)
 		{
 			string key = "";
 			string data = "";
 			String[] configData=null;
 			int idx;
 			try{
-				configData = File.ReadAllLines (CONFIG_FILE);
+				configData = File.ReadAllLines (configfile);
 			}
 			catch(Exception ex){
 				//Console.WriteLine ("WARNING: cannot load config, "+ex.Message+", using defaults");
@@ -90,6 +92,9 @@ namespace Shared
 				break;
 			case "ftpserver":
 				FTPServer = data;
+				break;
+			case "httpserver":
+				HTTPServer = data;
 				break;
 			case "remoteuser":
 				RemoteUser = data;
@@ -145,19 +150,19 @@ namespace Shared
 		}
 
 		public static void WriteConfigFile(){
-			using(StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.CONFIG_FILE))){
+			using(StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.CONFIG_FILE_CLIENT))){
 
 				sw.WriteLine(String.Format(Settings.HEADER, DateTime.Now));
 				System.Reflection.FieldInfo[] props = typeof(Shared.Settings).GetFields();
 
 				foreach(System.Reflection.FieldInfo prop in props){
-					if(prop.Name != "CONFIG_FILE" &&prop.Name != "HEADER" && prop.Name!= "HaveReadSettingsFile"){
+					if(!prop.Name.StartsWith("CONFIG_FILE") &&prop.Name != "HEADER" && prop.Name!= "HaveReadSettingsFile"){
 						sw.WriteLine(String.Format("{0}={1}",prop.Name, prop.GetValue(null)));
 					}
 				}
 
 			}
-			Settings.ReadConfigFile();
+			Settings.ReadConfigFile(Settings.CONFIG_FILE_CLIENT);
 		}
 
 	}

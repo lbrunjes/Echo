@@ -23,20 +23,22 @@ namespace Client
 
 
 			//read teh settings file
-			Settings.ReadConfigFile ();
+			Settings.ReadConfigFile (Settings.CONFIG_FILE_CLIENT);
 
 			//get the server hashlist
 			try {
 				serverhashes = Http.GetHashList ();
 			} catch (Exception ex) {
-				Console.WriteLine ("Something went wrong gettin'  our remote hashes. Oops.\n" + ex.Message + "\n" + ex.StackTrace);
+				Console.WriteLine ("Something went wrong gettin'  our remote hashes. Oops.\n" + ex.Message );
 				return;
 			}
 			//hash all teh local files.
 			try {
 				LocalData = new SyncList (Settings.LocalDirectory);
+				Console.WriteLine ("hashed:"+LocalData.HashList.Count);
 			} catch (Exception ex) {
-				Console.WriteLine("Problems readin' local directory. Oops\n"+ex.Message + "\n"+ex.StackTrace);
+				Console.WriteLine("Problems readin' local directory. Oops\n"+ex.Message);
+				return;
 			}
 
 
@@ -49,10 +51,16 @@ namespace Client
 				if (kvp.Key == "__Server" || kvp.Key == "__DateGeneratedUTC") {
 					;
 				} else {
-					//remove files that dont exist server side if set to
-					if (! LocalData.HashList.ContainsKey (kvp.Key) || kvp.Value.Hash != LocalData.HashList [kvp.Key].Hash) {
+					//Queue downloads
+					if (! LocalData.HashList.ContainsKey (kvp.Key) || 
+					    kvp.Value.Hash != LocalData.HashList [kvp.Key].Hash) {
 						FilesToDownload.Add (kvp.Key);
 						LocalData.HashList.Remove (kvp.Key);
+					}
+					else{
+						if(LocalData.HashList.ContainsKey (kvp.Key)){
+							LocalData.HashList.Remove (kvp.Key);
+						}
 					}
 				}
 
@@ -79,6 +87,7 @@ namespace Client
 				if(shouldDelete){
 					foreach(KeyValuePair<string,SyncItem> kvp in LocalData.HashList){
 						File.Delete(Settings.LocalDirectory+kvp.Key);
+						Console.WriteLine  ("removed"+kvp.Key);
 					}
 				}
 			}
@@ -86,15 +95,19 @@ namespace Client
 
 			Console.WriteLine ("Need to download: " + FilesToDownload.Count +" from " +Settings.DownloadType );
 			int progress = 0;
+			int fileCount = 0;
 			switch(Settings.DownloadType){
 
 				//dowl	onad htem from s3
 			case Settings.DownloadTypes.S3:
-				new AmazonS3();
+				AmazonS3 s3 =new AmazonS3();
 
 				foreach (string fileName in FilesToDownload) {
+					fileCount++;
+					Console.WriteLine(String.Format("downloading: {0}/{1} ({2})",fileCount,FilesToDownload.Count, fileName));
 					try{
 						progress += AmazonS3.DownloadFile(fileName);
+					
 					}
 					catch(Exception ex){
 						Console.WriteLine (String.Format("Couldn't download file:{1}\n {2}",Environment.NewLine, ex.Message, ex.StackTrace));
@@ -105,6 +118,9 @@ namespace Client
 			case Settings.DownloadTypes.FTP:
 				Ftp RemoteFtp = new Ftp ();
 				foreach (string fileName in FilesToDownload) {
+					fileCount++;
+					Console.WriteLine(String.Format("downloading: {0}/{1} ({2})",fileCount,FilesToDownload.Count, fileName));
+
 					try{
 					progress += Ftp.DownloadFile (fileName);
 					}
@@ -118,6 +134,9 @@ namespace Client
 			case Settings.DownloadTypes.HTTP:
 			
 				foreach (string fileName in FilesToDownload) {
+					fileCount++;
+					Console.WriteLine(String.Format("downloading: {0}/{1} ({2})",fileCount,FilesToDownload.Count, fileName));
+
 					try{
 					progress += Http.DownloadFile (fileName);
 					}

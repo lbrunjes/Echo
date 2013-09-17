@@ -44,6 +44,7 @@
     <Compile Include="Ftp.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="s3.cs" />
+    <Compile Include="IDownloadProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -38,7 +38,7 @@ namespace Shared
 					Hashlist.Add (field.Name, sf);
 				}
 				else{
-					Console.WriteLine(field.Name, field.GetValue().ToString());
+					//Console.WriteLine(field.Name, field.GetValue().ToString());
 				}
 			}
 
@@ -76,26 +76,15 @@ namespace Shared
 				using (FileStream file  = File.OpenWrite(Settings.LocalDirectory+fileName)) {
 
 
-					HttpWebRequest http = (HttpWebRequest)WebRequest.Create (Settings.FTPServer + fileName.Replace('\\','/'));
+					HttpWebRequest http = (HttpWebRequest)WebRequest.Create (Settings.HTTPServer + fileName.Replace('\\','/'));
 					
 
 					http.Credentials = new NetworkCredential (Settings.RemoteUser, Settings.RemotePassword);
 					HttpWebResponse response = (HttpWebResponse)http.GetResponse ();
 
 					Stream ftpdata = response.GetResponseStream();
-					Byte[] buffer = new byte[2048];
-
-				
-
-					//this is dumb 
-					//it shoudl use a buffer and use binary
-					while (ftpdata.Read(buffer,0, buffer.Length) >0) {
-						file.Write(buffer,0,buffer.Length);
-					}
-					filesChanged ++;
-					ftpdata.Close();
-					file.Flush();
-					file.Close();
+					ftpdata.CopyTo (file);
+					filesChanged++;
 				}
 
 

@@ -15,8 +15,14 @@ namespace Server
 	{
 		public static void Main (String[] args)
 		{
+			bool loop = true;
+			if (args.Length > 0 && args [0].ToLower () == "once") {
+				loop = false;
+			}
+
+
 			//read teh settings file
-			Settings.ReadConfigFile ();
+			Settings.ReadConfigFile (Settings.CONFIG_FILE_SERVER);
 
 			Console.Write ("Starting up");
 
@@ -25,24 +31,27 @@ namespace Server
 			SyncList Listing = new SyncList (Settings.LocalDirectory);
 
 			//Loop occasionally
-			while (true) {
+			do{
 
 				//write the hashes file to the server directory.
 				Listing.saveSyncList (Settings.HashFile);
 
 				Console.WriteLine (" ... Done ("+ sw.ElapsedMilliseconds+" ms)");
 				sw.Stop ();
-				//wait a bit.
-				Thread.Sleep (Settings.LoopTime);
-				sw.Reset ();
-				sw.Start ();
 
-				//
-				Console.Write ("Scanning");
+				if(loop){	
+					//wait a bit.
+					Thread.Sleep (Settings.LoopTime);
+					sw.Reset ();
+					sw.Start ();
 
-				//reset the hashes
-				Listing.loadSyncList (Listing.Path);
-			}
+					//
+					Console.Write ("Scanning");
+
+					//reset the hashes
+					Listing.loadSyncList (Listing.Path);
+				}
+			}while(loop);
 		}
 	}
 }

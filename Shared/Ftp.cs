@@ -42,19 +42,9 @@ namespace Shared
 					FtpWebResponse response = (FtpWebResponse)ftp.GetResponse ();
 
 					Stream ftpdata = response.GetResponseStream();
-					Byte[] buffer = new byte[2048];
-
-				
-
-					//this is dumb 
-					//it shoudl use a buffer and use binary
-					while (ftpdata.Read(buffer,0, buffer.Length) >0) {
-						file.Write(buffer,0,buffer.Length);
-					}
+					ftpdata.CopyTo (file);
 					filesChanged ++;
-					ftpdata.Close();
-					file.Flush();
-					file.Close();
+					
 				}
 
 

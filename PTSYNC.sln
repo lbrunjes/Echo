@@ -45,7 +45,7 @@ Global
 		{F83BBFCB-0C15-4BBC-A616-FB4D8DA9A6A3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Client\Client.csproj
+		StartupItem = ClientWinForms\ClientWinForms.csproj
 		Policies = $0
 		$0.StandardHeader = $1
 		$1.Text = @\n PT SYNC\n 2013 Lee Brunjes\n\t\n A one way file sync System. \n\n
