@@ -35,6 +35,7 @@ namespace Shared
 
 		}
 		public bool testAuth(){
+
 			return true;
 		}
 		[SecurityCriticalAttribute]
@@ -57,7 +58,7 @@ namespace Shared
 			GetObjectRequest r = new GetObjectRequest ();
 			r.BucketName = Settings.s3Bucket;
 			r.Key = fileName.Substring (1);//use substring so we elminate the /
-		
+			r.Timeout  =1000;//wait 1 minute fora  response.
 
 			using (GetObjectResponse response = s3.GetObject(r)) {
 				using (FileStream file  = File.OpenWrite(Settings.LocalDirectory+fileName)) {

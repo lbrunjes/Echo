@@ -44,7 +44,8 @@ namespace Shared
 			try{
 				configData = File.ReadAllLines (configfile);
 			}
-			catch(Exception ex){
+			catch(Exception ex)
+            {
 				//Console.WriteLine ("WARNING: cannot load config, "+ex.Message+", using defaults");
 				return;
 			}
@@ -142,7 +143,7 @@ namespace Shared
 
 				break;
 			default:
-				Console.WriteLine ("Invalid Config key: " + key);
+				Console.WriteLine ("Ignoring Config key: " + key);
 				break;
 
 

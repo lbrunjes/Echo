@@ -57,7 +57,8 @@ namespace Shared
 				try{
 				
 
-					key =filename.Replace (path, "");
+					key =filename.Replace (path, "").Replace("\\","/");
+
 					//Dont hash if the file update date is the same as the cahced version.
 					if(HashList.ContainsKey(key) && HashList[key].ModifiedDate  == File.GetLastWriteTimeUtc(filename)){
 						continue;

@@ -17,14 +17,16 @@ namespace Client
 
 		public static void Main (string[] args)
 		{
+
 			Dictionary<string,SyncItem> serverhashes =null;
 			SyncList LocalData= null;
 		
-
+			Console.WriteLine ("Startup. ");
 
 			//read teh settings file
 			Settings.ReadConfigFile (Settings.CONFIG_FILE_CLIENT);
 
+			Console.WriteLine("Getting file list");
 			//get the server hashlist
 			try {
 				serverhashes = Http.GetHashList ();
@@ -32,10 +34,14 @@ namespace Client
 				Console.WriteLine ("Something went wrong gettin'  our remote hashes. Oops.\n" + ex.Message );
 				return;
 			}
+
+			Console.WriteLine ("getting local files");
 			//hash all teh local files.
 			try {
 				LocalData = new SyncList (Settings.LocalDirectory);
 				Console.WriteLine ("hashed:"+LocalData.HashList.Count);
+
+				LocalData.saveSyncList (Settings.HashFile);
 			} catch (Exception ex) {
 				Console.WriteLine("Problems readin' local directory. Oops\n"+ex.Message);
 				return;
@@ -52,14 +58,22 @@ namespace Client
 					;
 				} else {
 					//Queue downloads
-					if (! LocalData.HashList.ContainsKey (kvp.Key) || 
-					    kvp.Value.Hash != LocalData.HashList [kvp.Key].Hash) {
+					if (! LocalData.HashList.ContainsKey (kvp.Key)){
+						//downlaod files that dont exist.
 						FilesToDownload.Add (kvp.Key);
-						LocalData.HashList.Remove (kvp.Key);
+						Console.WriteLine ("New File: " + kvp.Key);
 					}
 					else{
-						if(LocalData.HashList.ContainsKey (kvp.Key)){
-							LocalData.HashList.Remove (kvp.Key);
+						if( kvp.Value.Hash != LocalData.HashList [kvp.Key].Hash) {
+							//download files the dont mathc the hash
+							FilesToDownload.Add (kvp.Key);
+							Console.WriteLine (String.Format ("hash mismatch: {0}  ;local{2}, remote {1}", kvp.Key, kvp.Value.Hash, LocalData.HashList [kvp.Key].Hash));
+						}
+						else{
+							//if we get here the file exist and is right.
+							//get it out of the hash list so we dont delrte it.
+							bool okay = LocalData.HashList.Remove (kvp.Key);
+							Console.WriteLine ("File OK: " + kvp.Key+ "okay"+okay);
 						}
 					}
 				}
@@ -87,7 +101,7 @@ namespace Client
 				if(shouldDelete){
 					foreach(KeyValuePair<string,SyncItem> kvp in LocalData.HashList){
 						File.Delete(Settings.LocalDirectory+kvp.Key);
-						Console.WriteLine  ("removed"+kvp.Key);
+						Console.WriteLine  ("removed: "+kvp.Key);
 					}
 				}
 			}
@@ -115,7 +129,7 @@ namespace Client
 
 				}
 				break;
-			case Settings.DownloadTypes.FTP:
+			/*case Settings.DownloadTypes.FTP:
 				Ftp RemoteFtp = new Ftp ();
 				foreach (string fileName in FilesToDownload) {
 					fileCount++;
@@ -146,13 +160,14 @@ namespace Client
 
 				}
 
-				break;
+				break;*/
 
 			}
 			Console.WriteLine ("Downloaded "+progress+"/"+ FilesToDownload.Count +" File");
 
 			if (progress != FilesToDownload.Count) {
 				Console.WriteLine ("WARNING: NOT ALL FILES WERE SUCCESSFULLY DOWNLOADED");
+				Console.WriteLine ("         YOU SHOULD RUN THIS TOOL AGAIN.");
 			}
 
 		}
