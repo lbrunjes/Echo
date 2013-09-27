@@ -85,7 +85,7 @@ namespace Shared
 					output.Append (b.ToString ("x2"));
 				}
 
-				stream.Seek (0, SeekOrigin.Begin);
+				stream.Close();
 
 			}
 			return output.ToString ();

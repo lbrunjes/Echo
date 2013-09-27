@@ -9,19 +9,23 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Shared;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
 
 namespace Client
 {
 	public class MainEntryPoint
 	{
-
+		public static int DownloadCount =0;
+		public static int ErrorCount =0;
 		public static void Main (string[] args)
 		{
 
 			Dictionary<string,SyncItem> serverhashes =null;
 			SyncList LocalData= null;
 		
-			Console.WriteLine ("Startup. ");
+			Console.WriteLine ("Startup.  ");
 
 			//read teh settings file
 			Settings.ReadConfigFile (Settings.CONFIG_FILE_CLIENT);
@@ -41,7 +45,7 @@ namespace Client
 				LocalData = new SyncList (Settings.LocalDirectory);
 				Console.WriteLine ("hashed:"+LocalData.HashList.Count);
 
-				LocalData.saveSyncList (Settings.HashFile);
+				LocalData.saveSyncList (Settings.HashCache);
 			} catch (Exception ex) {
 				Console.WriteLine("Problems readin' local directory. Oops\n"+ex.Message);
 				return;
@@ -73,7 +77,7 @@ namespace Client
 							//if we get here the file exist and is right.
 							//get it out of the hash list so we dont delrte it.
 							bool okay = LocalData.HashList.Remove (kvp.Key);
-							Console.WriteLine ("File OK: " + kvp.Key+ "okay"+okay);
+							//Console.WriteLine ("File OK: " + kvp.Key+ "okay"+okay);
 						}
 					}
 				}
@@ -106,74 +110,63 @@ namespace Client
 				}
 			}
 
-
+			//DOWNLOADS
 			Console.WriteLine ("Need to download: " + FilesToDownload.Count +" from " +Settings.DownloadType );
 			int progress = 0;
-			int fileCount = 0;
-			switch(Settings.DownloadType){
 
-				//dowl	onad htem from s3
-			case Settings.DownloadTypes.S3:
-				AmazonS3 s3 =new AmazonS3();
 
-				foreach (string fileName in FilesToDownload) {
-					fileCount++;
-					Console.WriteLine(String.Format("downloading: {0}/{1} ({2})",fileCount,FilesToDownload.Count, fileName));
-					try{
-						progress += AmazonS3.DownloadFile(fileName);
-					
-					}
-					catch(Exception ex){
-						Console.WriteLine (String.Format("Couldn't download file:{1}\n {2}",Environment.NewLine, ex.Message, ex.StackTrace));
-					}
 
+			int tasklimit =10;
+
+			int nextFile =0;
+			GetObjectRequest request;
+			AmazonS3Client s3 = new  AmazonS3Client (Settings.s3IDKey, Settings.s3SecretKey);
+			while(nextFile < FilesToDownload.Count || DownloadCount >0 ){
+				if(DownloadCount < tasklimit && nextFile<FilesToDownload.Count){
+					request = new GetObjectRequest();
+					request.BucketName = Settings.s3Bucket;
+					request.Key = FilesToDownload[nextFile].Substring (1);//use substring so we elminate the /
+					request.Timeout  =1000;//wait 1 minute for a  response.
+					Console.WriteLine(nextFile+"/"+FilesToDownload.Count +" "+request.Key);
+
+					s3.BeginGetObject(request,DownloadFile,s3);
+					nextFile++;
+					DownloadCount++;
 				}
-				break;
-			/*case Settings.DownloadTypes.FTP:
-				Ftp RemoteFtp = new Ftp ();
-				foreach (string fileName in FilesToDownload) {
-					fileCount++;
-					Console.WriteLine(String.Format("downloading: {0}/{1} ({2})",fileCount,FilesToDownload.Count, fileName));
-
-					try{
-					progress += Ftp.DownloadFile (fileName);
-					}
-					catch(Exception ex){
-						Console.WriteLine (String.Format("Couldn't download file:{1}",Environment.NewLine, ex.Message, ex.StackTrace));
-					}
-
-				}
-				break;
-			
-			case Settings.DownloadTypes.HTTP:
-			
-				foreach (string fileName in FilesToDownload) {
-					fileCount++;
-					Console.WriteLine(String.Format("downloading: {0}/{1} ({2})",fileCount,FilesToDownload.Count, fileName));
-
-					try{
-					progress += Http.DownloadFile (fileName);
-					}
-					catch(Exception ex){
-						Console.WriteLine (String.Format("Couldn't download file:{1}",Environment.NewLine, ex.Message, ex.StackTrace));
-					}
-
-				}
-
-				break;*/
 
 			}
-			Console.WriteLine ("Downloaded "+progress+"/"+ FilesToDownload.Count +" File");
+               
 
-			if (progress != FilesToDownload.Count) {
+            
+			Console.WriteLine ("Downloaded "+(nextFile-ErrorCount)+"/"+ FilesToDownload.Count +" File");
+
+			if (nextFile-ErrorCount != FilesToDownload.Count) {
 				Console.WriteLine ("WARNING: NOT ALL FILES WERE SUCCESSFULLY DOWNLOADED");
 				Console.WriteLine ("         YOU SHOULD RUN THIS TOOL AGAIN.");
 			}
-
+			Console.WriteLine("Press any key to close.");
+			Console.ReadKey();
 		}
 
+		protected static void DownloadFile (IAsyncResult Result)
+		{
 
+			try {
+				AmazonS3 s3 = Result.AsyncState as AmazonS3;
+				GetObjectResponse r = s3.EndGetObject (Result);
+				string dir = Path.GetDirectoryName (Settings.LocalDirectory +"/" + r.Key);
+				if (!Directory.Exists (dir)) {
 
+					Directory.CreateDirectory (dir);
+				}
+				r.WriteResponseStreamToFile (Settings.LocalDirectory +"/"+ r.Key);
+			} catch (Exception ex) {
+				ErrorCount++;
+				Console.WriteLine(ex.Message);
+			}
+			DownloadCount--;
+
+		}
 
 	}
 }

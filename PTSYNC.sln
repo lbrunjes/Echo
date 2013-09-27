@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{CBD60B95-19F5-4F3F-9E9F-A2859137A582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampfireFTPAuth", "CampfireFTPAuth\CampfireFTPAuth.csproj", "{4385C880-A173-48DE-8F92-FAF386B7C482}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWinForms", "ClientWinForms\ClientWinForms.csproj", "{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Net.Json", "System.Net.Json\System.Net.Json.csproj", "{92A9D7E9-081A-44E1-BC46-3DFF2ACE072B}"
@@ -23,10 +21,6 @@ Global
 		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Debug|x86.Build.0 = Debug|Any CPU
 		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Release|x86.Build.0 = Release|Any CPU
-		{4385C880-A173-48DE-8F92-FAF386B7C482}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4385C880-A173-48DE-8F92-FAF386B7C482}.Debug|x86.Build.0 = Debug|Any CPU
-		{4385C880-A173-48DE-8F92-FAF386B7C482}.Release|x86.ActiveCfg = Release|Any CPU
-		{4385C880-A173-48DE-8F92-FAF386B7C482}.Release|x86.Build.0 = Release|Any CPU
 		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.ActiveCfg = Debug|x86
 		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.Build.0 = Debug|x86
 		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Release|x86.ActiveCfg = Release|x86

@@ -143,7 +143,7 @@ namespace Shared
 
 				break;
 			default:
-				Console.WriteLine ("Ignoring Config key: " + key);
+				//Console.WriteLine ("Ignoring Config key: " + key);
 				break;
 
 

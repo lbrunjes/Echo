@@ -1,24 +1,27 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Shared\s3.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Client\Main.cs">
     <Files>
       <File FileName="ClientWinForms\MainForm.cs" Line="1" Column="1" />
-      <File FileName="Client\Main.cs" Line="1" Column="1" />
+      <File FileName="Client\Main.cs" Line="183" Column="20" />
+      <File FileName="Shared\SyncItem.cs" Line="1" Column="1" />
+      <File FileName="Shared\SyncFile.cs" Line="1" Column="1" />
       <File FileName="Shared\SyncList.cs" Line="1" Column="1" />
+      <File FileName="Shared\Http.cs" Line="1" Column="1" />
       <File FileName="Shared\s3.cs" Line="1" Column="1" />
-      <File FileName="Shared\Settings.cs" Line="1" Column="1" />
+      <File FileName="Shared\IDownloadProvider.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Client" expanded="True" />
+          <Node name="Client" expanded="True">
+            <Node name="Main.cs" selected="True" />
+          </Node>
           <Node name="ClientWinForms" expanded="True">
             <Node name="References" expanded="True" />
           </Node>
           <Node name="Server" expanded="True" />
-          <Node name="Shared" expanded="True">
-            <Node name="s3.cs" selected="True" />
-          </Node>
+          <Node name="Shared" expanded="True" />
         </State>
       </Pad>
     </Pads>
@@ -27,11 +30,12 @@
     <BreakpointStore>
       <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Server/Main.cs" line="21" column="1" />
       <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/SyncList.cs" line="98" column="1" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="37" column="1" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="96" column="1" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="70" column="1" />
-      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/s3.cs" line="63" column="1" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="42" column="1" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="103" column="1" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Client/Main.cs" line="77" column="1" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/Shared/s3.cs" line="73" column="1" />
       <Breakpoint file="C:\Users\Confused\Dropbox\inprogress\PTSYNC\Client\Main.cs" line="78" column="1" />
+      <Breakpoint file="/media/lee/Black/Dropbox/inprogress/PTSYNC/ClientWinForms/MainForm.cs" line="263" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

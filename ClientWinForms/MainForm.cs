@@ -12,7 +12,10 @@ using Shared;
 using System.Collections.Generic;
 using System.IO;
 using System.ComponentModel;
-
+using System.Threading.Tasks;
+using Amazon.S3.Model;
+using Amazon.S3;
+using Amazon;
 namespace ClientWinForms
 {
 	public class MainForm:Form
@@ -20,15 +23,34 @@ namespace ClientWinForms
 		SettingsForm SettingsForm = null;
 		Button SettingsButton = new Button();
 		Button StartSync = new Button();
+		Button Clear = new Button();
 		TextBox Console = new TextBox();
 		ProgressBar Progress = new ProgressBar();
         private BackgroundWorker backgroundWorker = null;
 
+		public static int DownloadCount =0;
+		public static int ErrorCount =0;
+
+
+
+
 		public MainForm ()
 		{
+			try{
+				this.Icon = new Icon("echo.ico");
+				}
+			catch(Exception ex){System.Console.WriteLine(ex.Message);};
+
 			this.SuspendLayout();
 			this.Width = 530;
+			this.Height = 350;
 			this.Font = new Font("monospaced", 12);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox =false;
+			this.MinimizeBox =false;
+			this.StartPosition = FormStartPosition.CenterScreen;
+			this.Text = "Echo";
+
 
 			Settings.ReadConfigFile(Settings.CONFIG_FILE_CLIENT);
 
@@ -46,10 +68,16 @@ namespace ClientWinForms
 			StartSync.Height = 32;
 			StartSync.MouseClick += this.RunSyncAndScan;
 
+			Clear.Text = "Clear";
+			Clear.Location = new Point(256,32);
+			Clear.Width = 126;
+			Clear.Height =32;
+			Clear.MouseClick += this.ClearConsole;
+
 			Console.Multiline =true;
 			Console.Text += "Read Settings file" +Environment.NewLine;
 			Console.Location = new Point(0,64);
-			Console.Width = 768;
+			Console.Width = 510;
 			Console.Height =256;
 			Console.ScrollBars = ScrollBars.Both;
 
@@ -61,23 +89,27 @@ namespace ClientWinForms
 			this.Controls.Add(StartSync);
 			this.Controls.Add(Console);
 			this.Controls.Add(Progress);
+			this.Controls.Add (Clear);
 
 			this.ResumeLayout();
-			this.StartPosition = FormStartPosition.CenterScreen;
-			this.Text = "Scan and Sync";
 
             InitializeBackgroundWorker();
 		}
+		private void ClearConsole (Object o, MouseEventArgs args)
+		{
+			Console.Text ="";
+		}
 
         // Set up the BackgroundWorker object by attaching event handlers.
-        private void InitializeBackgroundWorker()
-        {
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.WorkerSupportsCancellation = true;
-            backgroundWorker.DoWork += new DoWorkEventHandler(ThreadedSyncAndScan);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(SyncComplete);
-            backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(SyncProgressChanged);
+        private void InitializeBackgroundWorker ()
+		{
+			backgroundWorker = new BackgroundWorker ();
+			backgroundWorker.WorkerReportsProgress = true;
+			backgroundWorker.WorkerSupportsCancellation = true;
+			backgroundWorker.DoWork += new DoWorkEventHandler (ThreadedSyncAndScan);
+			backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler (SyncComplete);
+			backgroundWorker.ProgressChanged += new ProgressChangedEventHandler (SyncProgressChanged);
+
         }
 
 		public void RunSyncAndScan(Object o, MouseEventArgs args)
@@ -90,8 +122,7 @@ namespace ClientWinForms
 
             backgroundWorker.RunWorkerAsync();
             StartSync.Enabled = false;
-            Progress.Maximum = 100;
-            Progress.Value = 0;
+          
         }
 
         private delegate void StringDelegate(string s);
@@ -106,6 +137,7 @@ namespace ClientWinForms
 
             this.Console.Text += text;
         }
+
 
         private void ThreadedSyncAndScan(object sender, DoWorkEventArgs e)
         {   
@@ -132,7 +164,7 @@ namespace ClientWinForms
             SyncList LocalData = new SyncList(Settings.LocalDirectory);
 
             List<string> FilesToDownload = new List<string>();
-
+			LocalData.saveSyncList (Settings.HashCache);
             //get the delta list
             foreach (KeyValuePair<string, SyncItem> kvp in serverhashes)
             {
@@ -161,7 +193,7 @@ namespace ClientWinForms
                         {
                             //if we get here the file exist and is right.
                             //get it out of the hash list so we dont delrte it.
-                            bool okay = LocalData.HashList.Remove(kvp.Key);
+                            LocalData.HashList.Remove(kvp.Key);
                         }
                     }
                 }
@@ -192,85 +224,57 @@ namespace ClientWinForms
 
 
                 //remove files
-                if (shouldDelete)
+				if (shouldDelete && LocalData.HashList.Count >0)
                 {
-                    AddTextToConsole("Deleting files..." + Environment.NewLine);
                     foreach (KeyValuePair<string, SyncItem> kvp in LocalData.HashList)
                     {
+						AddTextToConsole( kvp.Key + Environment.NewLine);
+                    
                         File.Delete(Settings.LocalDirectory + kvp.Key);
                     }
                 }
             }
 
 
-            AddTextToConsole("Need to download: " + FilesToDownload.Count + " files from " + Settings.DownloadType + Environment.NewLine);
-            int progress = 0;
+          
+		
 
-            Boolean authSuccess = true;
-            AmazonS3 s3 = null;
-            if (Settings.DownloadType == Settings.DownloadTypes.S3)
-            {
-                s3 = new AmazonS3();
-                // Try to test auth so we dont hang and time out after forever.
-                if (!s3.testAuth())
-                {
-                    authSuccess = false;
-                    AddTextToConsole("Could not authenticate S3 key. Downloads skipped." + Environment.NewLine);
-                }
-            }
+            //DOWNLOADS
+			AddTextToConsole ("Need to download: " + FilesToDownload.Count +" from " +Settings.DownloadType +Environment.NewLine);
+			ErrorCount =0;
 
-            if (authSuccess)
-            {
-                foreach (string fileName in FilesToDownload)
-                {
-                    switch (Settings.DownloadType)
-                    {
-                        //dowlonad htem from ftp
-                    /*    case Settings.DownloadTypes.FTP:
-                            try
-                            {
-                                progress += Ftp.DownloadFile(fileName);
-                            }
-                            catch (Exception ex)
-                            {
-                                AddTextToConsole(String.Format("Error Getting file {1}: {0} ", ex.Message, fileName));
 
-                            }
-                            break;
 
-                        case Settings.DownloadTypes.HTTP:
-                            try
-                            {
-                                progress += Http.DownloadFile(fileName);
-                            }
-                            catch (Exception ex)
-                            {
-                                AddTextToConsole(String.Format("Couldn't download file:{1}{0}", Environment.NewLine, ex.Message, ex.StackTrace));
-                            }
-                            break;*/
 
-                        case Settings.DownloadTypes.S3:
-                            try
-                            {
-						     
-                                progress += AmazonS3.DownloadFile(fileName);
-							}
-                            catch (Exception ex)
-                            {
-                                AddTextToConsole(String.Format("Couldn't download file:{1}{0}", Environment.NewLine, ex.Message, ex.StackTrace));
-                            }
-                            break;
-                    }
-                    worker.ReportProgress((int)(((float)progress) / ((float)FilesToDownload.Count) * 100.0f));
-                }
-            }
+			int tasklimit =10;
 
-            AddTextToConsole("Downloaded " + progress + "/" + FilesToDownload.Count + " File(s)" + Environment.NewLine);
+			int nextFile =0;
+			GetObjectRequest request;
+			AmazonS3Client s3 = new  AmazonS3Client (Settings.s3IDKey, Settings.s3SecretKey);
+			while(nextFile < FilesToDownload.Count || DownloadCount >0 ){
+				if(DownloadCount < tasklimit && nextFile<FilesToDownload.Count){
+					request = new GetObjectRequest();
+					request.BucketName = Settings.s3Bucket;
+					request.Key = FilesToDownload[nextFile].Substring (1);//use substring so we elminate the /
+					request.Timeout  =1000;//wait 1 minute for a  response.
+					AddTextToConsole(nextFile+"/"+FilesToDownload.Count +" "+request.Key+Environment.NewLine);
 
-            if (progress != FilesToDownload.Count)
+					s3.BeginGetObject(request,DownloadFile,s3);
+					nextFile++;
+					DownloadCount++;
+					worker.ReportProgress((int)(((float)nextFile) / ((float)FilesToDownload.Count) * 100.0f));
+           
+				}
+
+			}
+               
+
+            
+			if (nextFile-ErrorCount < FilesToDownload.Count)
             {
                 AddTextToConsole("WARNING: NOT ALL FILES WERE SUCCESSFULLY DOWNLOADED" + Environment.NewLine + Environment.NewLine);
             }
+			AddTextToConsole("Download queue processed. Check log for any errors"+Environment.NewLine);
         }
 
         private void SyncComplete(object sender, RunWorkerCompletedEventArgs e)
@@ -300,6 +304,27 @@ namespace ClientWinForms
 		public void ShowSettings(object a, MouseEventArgs e)
         {
 			SettingsForm.ShowDialog();
+		}
+
+
+		protected static void DownloadFile (IAsyncResult Result)
+		{
+
+			try {
+				AmazonS3 s3 = Result.AsyncState as AmazonS3;
+				GetObjectResponse r = s3.EndGetObject (Result);
+				string dir = Path.GetDirectoryName (Settings.LocalDirectory +"/" + r.Key);
+				if (!Directory.Exists (dir)) {
+
+					Directory.CreateDirectory (dir);
+				}
+				r.WriteResponseStreamToFile (Settings.LocalDirectory +"/"+ r.Key);
+			} catch (Exception ex) {
+				ErrorCount++;
+				System.Console.WriteLine(ex.Message+Environment.NewLine);
+			}
+			DownloadCount--;
+
 		}
 	}
 }

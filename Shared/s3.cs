@@ -14,12 +14,12 @@ using Amazon.S3.Model;
 
 namespace Shared
 {
-
+	/*
 
 	[SecurityCriticalAttribute]
-	public class AmazonS3
+	public class AmazonS3:IDownloadProvider
 	{
-		public static AmazonS3Client s3 =null;
+		public AmazonS3Client s3 =null;
 		public AmazonS3 ()
 		{
 
@@ -32,14 +32,24 @@ namespace Shared
 				Console.WriteLine(r.S3Objects.Count);
 
 			}*/
-
+/*
 		}
 		public bool testAuth(){
+		/*	GetACLRequest a = new GetACLRequest();
+			a.BucketName =Settings.s3Bucket;
+			GetACLResponse response = s3.GetACL(a);
+			S3AccessControlList acl = response.AccessControlList;
 
-			return true;
+			foreach(S3Grant grant in acl.Grants){
+				Console.WriteLine (grant.Grantee + " "+grant.Permission);
+
+
+			}
+*/
+/*			return true;
 		}
 		[SecurityCriticalAttribute]
-		public static int DownloadFile (string fileName)
+		public int DownloadFile (string fileName)
 		{
 
 			int filesChanged = 0;
@@ -52,7 +62,7 @@ namespace Shared
 			//make sure the requred directoreis exist
 			dir = Path.GetDirectoryName (Settings.LocalDirectory + fileName);
 			if (!Directory.Exists (dir)) {
-				Console.WriteLine ("Creating dir");
+//				Console.WriteLine ("Creating dir");
 				Directory.CreateDirectory (dir);
 			}
 			GetObjectRequest r = new GetObjectRequest ();
@@ -74,6 +84,6 @@ namespace Shared
 
 			return filesChanged;
 		}
-	}
+	}*/
 }
 

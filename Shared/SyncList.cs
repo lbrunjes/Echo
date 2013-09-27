@@ -40,7 +40,7 @@ namespace Shared
 			if (HashList.Count == 0 && File.Exists (Settings.HashCache)) {
 				try{
 					JsonObject hashes = new JsonTextParser().Parse(File.ReadAllText(Settings.HashCache));
-
+					Console.WriteLine("using cache");
 					foreach (JsonObject field in hashes as JsonObjectCollection) {
 
 
@@ -48,7 +48,8 @@ namespace Shared
 					}
 				}
 				catch(Exception ex){
-					Console.WriteLine(ex.Message);
+					//supress warning about timestamp and date
+					//Console.WriteLine(ex.Message);
 				}
 
 			}
@@ -86,7 +87,7 @@ namespace Shared
 
 				}
 				catch(Exception ex){
-					Console.WriteLine ("skipped: " + filename + " because :" +ex.Message);
+					//Console.WriteLine ("skipped: " + filename + " because :" +ex.Message);
 				}
 			}
 
@@ -98,6 +99,10 @@ namespace Shared
 
 		public void saveSyncList (string filename)
 		{
+			//ensure old cache is eliminated.
+			if (File.Exists (Settings.HashCache)) {
+				File.Delete (filename);
+			}
 
 			StreamWriter writer = new StreamWriter (File.OpenWrite (Settings.HashCache));
 
@@ -112,13 +117,14 @@ namespace Shared
 			writer.Flush ();
 			writer.Close ();
 
-			//Cheaky right.
-			if (File.Exists (filename)) {
-				File.Delete(filename);
+
+			if (filename != Settings.HashCache) {
+				if (File.Exists (filename)) {
+					File.Delete (filename);
+				}
+
+				File.Copy (Settings.HashCache, filename);
 			}
-
-			File.Copy(Settings.HashCache, filename);
-
 		}
 
 	
