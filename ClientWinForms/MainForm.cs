@@ -235,7 +235,7 @@ namespace ClientWinForms
                 {
                     foreach (KeyValuePair<string, SyncItem> kvp in LocalData.HashList)
                     {
-						AddTextToConsole( kvp.Key + Environment.NewLine);
+						AddTextToConsole("  "+ kvp.Key + Environment.NewLine);
                     
                         File.Delete(Settings.LocalDirectory + kvp.Key);
                     }
@@ -264,7 +264,7 @@ namespace ClientWinForms
 					request.BucketName = Settings.s3Bucket;
 					request.Key = FilesToDownload[nextFile].Substring (1);//use substring so we elminate the /
 					request.Timeout  =1000;//wait 1 minute for a  response.
-					AddTextToConsole(nextFile+"/"+FilesToDownload.Count +" "+request.Key+Environment.NewLine);
+					AddTextToConsole("  "+(nextFile +1)+"/"+FilesToDownload.Count +" "+request.Key+Environment.NewLine);
 
 					s3.BeginGetObject(request,DownloadFile,s3);
 					nextFile++;

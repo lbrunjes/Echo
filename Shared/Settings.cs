@@ -128,7 +128,7 @@ namespace Shared
 			/*case "s3host":
 				s3Host = data.Trim ();
 				break;*/
-			case "downloadtype":
+		/*	case "downloadtype":
 
 				if(data.ToLower() =="ftp"){
 					DownloadType = DownloadTypes.FTP;
@@ -141,7 +141,7 @@ namespace Shared
 				}
 
 
-				break;
+				break;*/
 			default:
 				//Console.WriteLine ("Ignoring Config key: " + key);
 				break;
