@@ -314,12 +314,13 @@ namespace ClientWinForms
 		}
 
 
-		protected static void DownloadFile (IAsyncResult Result)
+		protected void DownloadFile (IAsyncResult Result)
 		{
-
+			string file ="unknown";
 			try {
 				AmazonS3 s3 = Result.AsyncState as AmazonS3;
 				GetObjectResponse r = s3.EndGetObject (Result);
+				System.Console.WriteLine(r.Key);
 				string dir = Path.GetDirectoryName (Settings.LocalDirectory +"/" + r.Key);
 				if (!Directory.Exists (dir)) {
 
@@ -328,7 +329,8 @@ namespace ClientWinForms
 				r.WriteResponseStreamToFile (Settings.LocalDirectory +"/"+ r.Key);
 			} catch (Exception ex) {
 				ErrorCount++;
-				System.Console.WriteLine(ex.Message+Environment.NewLine);
+				System.Console.WriteLine(ex.Message);
+				AddTextToConsole("ERROR:"+ex.Message+Environment.NewLine);
 			}
 			DownloadCount--;
 

@@ -65,7 +65,7 @@ namespace ClientWinForms
 			System.Reflection.FieldInfo[] props = typeof(Shared.Settings).GetFields();
 
 				foreach(System.Reflection.FieldInfo prop in props){
-				Console.WriteLine(prop.Name);
+			//	Console.WriteLine(prop.Name);
 					if(prop.Name == "HashServer" || 
 					   	prop.Name == "LocalDirectory" || 
 						prop.Name == "s3IDKey" || 
@@ -116,9 +116,13 @@ namespace ClientWinForms
 				Settings.HashServer = GetSetting (settingsdata, "HashServer");
 				//    Settings.RemoteUser = GetSetting(settingsdata, "RemoteUser");
 				//    Settings.RemotePassword = GetSetting(settingsdata, "RemotePassword");
-				Settings.RemoveLocalFileIfNoRemoteFile = GetSetting (settingsdata, "RemoveLocalFileIfNoRemoteFile").ToLower () == "true";
+		//		Settings.RemoveLocalFileIfNoRemoteFile = GetSetting (settingsdata, "RemoveLocalFileIfNoRemoteFile").ToLower () == "true";
 				Settings.LocalDirectory = GetSetting (settingsdata, "LocalDirectory");
-
+				Settings.HashServer = GetSetting (settingsdata, "HashServer");
+				Settings.LocalDirectory = GetSetting (settingsdata, "LocalDirectory");
+				Settings.s3IDKey = GetSetting (settingsdata, "s3IDKey");
+				Settings.s3SecretKey = GetSetting (settingsdata, "s3SecretKey");
+				Settings.s3Bucket = GetSetting (settingsdata, "s3Bucket");
 		//		int.TryParse (GetSetting (settingsdata, "LoopTime"), out Settings.LoopTime);
 		//		int.TryParse (GetSetting (settingsdata, "DeleteWarningLevel"), out Settings.numFilesToRemoveWithNoWarning);
 
