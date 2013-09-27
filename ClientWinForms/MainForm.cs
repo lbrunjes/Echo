@@ -36,64 +36,71 @@ namespace ClientWinForms
 
 		public MainForm ()
 		{
-			try{
-				this.Icon = new Icon("echo.ico");
-				}
-			catch(Exception ex){System.Console.WriteLine(ex.Message);};
+			try {
+				this.Icon = new Icon ("echo.ico");
+			} catch (Exception ex) {
+				System.Console.WriteLine (ex.Message);
+			}
+			;
 
-			this.SuspendLayout();
+			this.SuspendLayout ();
 			this.Width = 530;
 			this.Height = 350;
-			this.Font = new Font("monospaced", 12);
+			this.Font = new Font ("monospaced", 12);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox =false;
-			this.MinimizeBox =false;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.StartPosition = FormStartPosition.CenterScreen;
 			this.Text = "Echo";
 
 
-			Settings.ReadConfigFile(Settings.CONFIG_FILE_CLIENT);
+			Settings.ReadConfigFile (Settings.CONFIG_FILE_CLIENT);
 
-			SettingsForm = new SettingsForm();
+			SettingsForm = new SettingsForm ();
 
 			SettingsButton.Text = "Settings";
-			SettingsButton.Location = new Point(382,32);
+			SettingsButton.Location = new Point (382, 32);
 			SettingsButton.Width = 128;
 			SettingsButton.Height = 32;
 			SettingsButton.MouseClick += this.ShowSettings;
 
 			StartSync.Text = "Start Scan and Sync";
-			StartSync.Location = new Point(0,32);
+			StartSync.Location = new Point (0, 32);
 			StartSync.Width = 256;
 			StartSync.Height = 32;
 			StartSync.MouseClick += this.RunSyncAndScan;
 
 			Clear.Text = "Clear";
-			Clear.Location = new Point(256,32);
+			Clear.Location = new Point (256, 32);
 			Clear.Width = 126;
-			Clear.Height =32;
+			Clear.Height = 32;
 			Clear.MouseClick += this.ClearConsole;
 
-			Console.Multiline =true;
-			Console.Text += "Read Settings file" +Environment.NewLine;
-			Console.Location = new Point(0,64);
+			Console.Multiline = true;
+			Console.Text += "Read Settings file" + Environment.NewLine;
+			Console.Location = new Point (0, 64);
 			Console.Width = 510;
-			Console.Height =256;
+			Console.Height = 256;
 			Console.ScrollBars = ScrollBars.Both;
 
-			Progress.Location = new Point(0,8);
+			Progress.Location = new Point (0, 8);
 			Progress.Width = 512;
-			Progress.Height= 16;
+			Progress.Height = 16;
 
-			this.Controls.Add(SettingsButton);
-			this.Controls.Add(StartSync);
-			this.Controls.Add(Console);
-			this.Controls.Add(Progress);
+			this.Controls.Add (SettingsButton);
+			this.Controls.Add (StartSync);
+			this.Controls.Add (Console);
+			this.Controls.Add (Progress);
 			this.Controls.Add (Clear);
 
-			this.ResumeLayout();
+			this.ResumeLayout ();
 
-            InitializeBackgroundWorker();
+			InitializeBackgroundWorker ();
+
+			if (!Settings.HaveReadSettingsFile) {
+				MessageBox.Show("Settings File Not Found.\r\nPlease Edit Your settings and save them\r\n\r\nYou MUST change s3IDKey and s3SecretKey");
+				SettingsForm.ShowDialog();
+			}
 		}
 		private void ClearConsole (Object o, MouseEventArgs args)
 		{

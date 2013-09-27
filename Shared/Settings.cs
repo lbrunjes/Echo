@@ -13,23 +13,23 @@ namespace Shared
 	public static class Settings
 	{
 		public static bool HaveReadSettingsFile = false;
-		public static string FTPServer="ftp://127.0.0.1";
-		public static string HTTPServer = "http://127.0.0.1";
-		public static string HashServer="http://127.0.0.1/hashes.txt";
+	//	public static string FTPServer="ftp://127.0.0.1";
+	//	public static string HTTPServer = "http://127.0.0.1";
+		public static string HashServer="http://67.180.48.149:81/hashes.txt";
 		public static string HashFile="I_did_not_set_the_key_hashfile_in_Settings.ini.txt";
 		public static string HashCache ="hashcache.txt";
-		public static string RemoteUser="ANNON";
-		public static string RemotePassword ="IM_A_PT_I_SWEAR";
+	//	public static string RemoteUser="ANNON";
+	//	public static string RemotePassword ="IM_A_PT_I_SWEAR";
 		public static string LocalDirectory = "I_did_not_set__LocalDirectory_in_settings.ini/";
 		public static bool RemoveLocalFileIfNoRemoteFile = false;
-		public static int numFilesToRemoveWithNoWarning = 100;
+		public static int numFilesToRemoveWithNoWarning = 0;
 		public static int LoopTime = 1000*60 *2;
-		public static string s3IDKey = "022QF06E7MXBSH9DHM02";
-		public static string s3SecretKey = "022QF06E7MXBSH9DHM02";
-		public static string s3Bucket = "housemark";
-		public static string s3Host = "s3-website-us-east-1.amazonaws.com";
+		public static string s3IDKey = "XXXX";
+		public static string s3SecretKey = "XXXXXX";
+		public static string s3Bucket = "ns2build";
+	//	public static string s3Host = "s3-website-us-east-1.amazonaws.com";
 		public enum DownloadTypes{S3,FTP,HTTP};
-		public static DownloadTypes DownloadType = DownloadTypes.FTP;
+		public static DownloadTypes DownloadType = DownloadTypes.S3;
 
 		public const string CONFIG_FILE_CLIENT="clientSettings.ini";
 		public const string CONFIG_FILE_SERVER="serverSettings.ini";
@@ -91,7 +91,7 @@ namespace Shared
 			case "hashfile":
 				HashFile = data;
 				break;
-			case "ftpserver":
+	/*		case "ftpserver":
 				FTPServer = data;
 				break;
 			case "httpserver":
@@ -103,7 +103,7 @@ namespace Shared
 			case "remotepassword":
 				RemotePassword = data;
 				break;
-			case "removeifmissing":
+	*/		case "removeifmissing":
 			case "removelocalfiles":
 			case "removelocalfileifnoremotefile":
 				RemoveLocalFileIfNoRemoteFile = data.ToLower ().Trim () == "true";
@@ -125,9 +125,9 @@ namespace Shared
 			case "s3bucket":
 				s3Bucket = data.Trim();
 				break;
-			case "s3host":
+			/*case "s3host":
 				s3Host = data.Trim ();
-				break;
+				break;*/
 			case "downloadtype":
 
 				if(data.ToLower() =="ftp"){

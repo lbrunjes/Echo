@@ -50,5 +50,6 @@
     <Reference Include="AWSSDK">
       <HintPath>..\AWSSDK.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Security" />
   </ItemGroup>
 </Project>

@@ -65,7 +65,12 @@ namespace ClientWinForms
 			System.Reflection.FieldInfo[] props = typeof(Shared.Settings).GetFields();
 
 				foreach(System.Reflection.FieldInfo prop in props){
-					if(prop.Name != "CONFIG_FILE" &&prop.Name != "HEADER" && prop.Name!= "HaveReadSettingsFile"){
+				Console.WriteLine(prop.Name);
+					if(prop.Name == "HashServer" || 
+					   	prop.Name == "LocalDirectory" || 
+						prop.Name == "s3IDKey" || 
+						prop.Name == "s3SecretKey" || 
+						prop.Name == "s3Bucket"){					   
 						settingsdata.Add(new SettingPair(prop.Name, prop.GetValue(null).ToString()));
 					}
 				}
@@ -75,6 +80,10 @@ namespace ClientWinForms
 			SettingsList.Width =512;
 			SettingsList.Height=256;
 
+					this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.StartPosition = FormStartPosition.CenterScreen;
 		
 			SettingsList.RowHeadersVisible = false;
             SettingsList.ReadOnly = false;
@@ -94,25 +103,27 @@ namespace ClientWinForms
 			this.StartPosition = FormStartPosition.CenterParent;
 
 			this.ResumeLayout();
-			this.Text = "Scan and Sync Settings";
+			this.Text = "Echo - Settings";
 
 		}
 
 		public void SaveSettings (Object o, MouseEventArgs e)
 		{
-			//set settings using settings data
 
-			Settings.FTPServer = GetSetting(settingsdata, "FTPServer");
-			Settings.HashServer = GetSetting(settingsdata, "HashServer");
-            Settings.RemoteUser = GetSetting(settingsdata, "RemoteUser");
-            Settings.RemotePassword = GetSetting(settingsdata, "RemotePassword");
-            Settings.RemoveLocalFileIfNoRemoteFile = GetSetting(settingsdata, "RemoveLocalFileIfNoRemoteFile").ToLower() == "true";
-            Settings.LocalDirectory = GetSetting(settingsdata, "LocalDirectory");
+				//set settings using settings data
 
-			int.TryParse(GetSetting(settingsdata, "LoopTime"), out Settings.LoopTime);
-			int.TryParse(GetSetting(settingsdata, "DeleteWarningLevel"), out Settings.numFilesToRemoveWithNoWarning);
+				//	Settings.FTPServer = GetSetting(settingsdata, "FTPServer");
+				Settings.HashServer = GetSetting (settingsdata, "HashServer");
+				//    Settings.RemoteUser = GetSetting(settingsdata, "RemoteUser");
+				//    Settings.RemotePassword = GetSetting(settingsdata, "RemotePassword");
+				Settings.RemoveLocalFileIfNoRemoteFile = GetSetting (settingsdata, "RemoveLocalFileIfNoRemoteFile").ToLower () == "true";
+				Settings.LocalDirectory = GetSetting (settingsdata, "LocalDirectory");
 
-			Settings.WriteConfigFile();
+		//		int.TryParse (GetSetting (settingsdata, "LoopTime"), out Settings.LoopTime);
+		//		int.TryParse (GetSetting (settingsdata, "DeleteWarningLevel"), out Settings.numFilesToRemoveWithNoWarning);
+
+				Settings.WriteConfigFile ();
+		
 		}
 	}
 }

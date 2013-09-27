@@ -57,7 +57,7 @@ namespace Shared
 			
 			return data;
 		}
-
+/*
 		public static int DownloadFile (string fileName){
 			int filesChanged = 0;
 			string dir = "";
@@ -90,7 +90,7 @@ namespace Shared
 
 			return filesChanged;
 
-		}
+		}*/
 
 
 	}

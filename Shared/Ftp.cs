@@ -14,7 +14,7 @@ namespace Shared
 {
 	public class Ftp
 	{
-
+		/*
 		public static int DownloadFile (string fileName)
 		{
 			int filesChanged = 0;
@@ -49,7 +49,7 @@ namespace Shared
 
 
 			return filesChanged;
-		}
+		}*/
 	}
 }
 
