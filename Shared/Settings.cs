@@ -151,6 +151,9 @@ namespace Shared
 		}
 
 		public static void WriteConfigFile(){
+			if(File.Exists(Settings.CONFIG_FILE_CLIENT)){
+				File.Delete(Settings.CONFIG_FILE_CLIENT);
+			}
 			using(StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.CONFIG_FILE_CLIENT))){
 
 				sw.WriteLine(String.Format(Settings.HEADER, DateTime.Now));
