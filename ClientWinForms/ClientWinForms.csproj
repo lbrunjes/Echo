@@ -10,6 +10,8 @@
     <RootNamespace>ClientWinForms</RootNamespace>
     <AssemblyName>ClientWinForms</AssemblyName>
     <ApplicationIcon>..\binaries\Debug\echo.ico</ApplicationIcon>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\..\..\..\..\home\lee\src\public.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,15 +50,11 @@
     <Reference Include="AWSSDK">
       <HintPath>..\AWSSDK.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Security" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}</Project>
       <Name>Shared</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Settings.ini" />
   </ItemGroup>
 </Project>

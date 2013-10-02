@@ -109,7 +109,7 @@ namespace Shared
 			writer.WriteLine ("{");
 
 			foreach (KeyValuePair<string,SyncItem> kvp in HashList) {
-				writer.WriteLine (String.Format ("\"{0}\":{{\"hash\":\"{1}\",\"time\":\"{2:yyyy-MM-dd hh:mm:ss}\"}},", kvp.Key.Replace ("\\", "/"), kvp.Value.Hash, kvp.Value.ModifiedDate));
+				writer.WriteLine (String.Format ("\"{0}\":{{\"hash\":\"{1}\",\"time\":\"{2:yyyy-MM-dd hh:mm:ss}\",\"size\":\"{3}\"}},", kvp.Key.Replace ("\\", "/"), kvp.Value.Hash, kvp.Value.ModifiedDate, kvp.Value.FileSize));
 			}
 			writer.WriteLine (String.Format ("\"__Server\":\"{0}\",", ServerName));
 			writer.WriteLine (String.Format ("\"__DateGeneratedUTC\":\"{0:yy-MM-dd-hh-mm-ss}\"", DateTime.UtcNow));

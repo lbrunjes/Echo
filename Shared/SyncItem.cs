@@ -26,6 +26,7 @@ namespace Shared
 
 		public DateTime ModifiedDate;
 		public DateTime ServerModifiedDate;
+        public int FileSize;
 
 		protected string path = "";
 		public string Path{ get { return path; } }
@@ -55,6 +56,9 @@ namespace Shared
 						out this.ModifiedDate);
 
 				}
+                if (field.Name == "size"){
+                    this.FileSize = (int)field.GetValue();
+                }
 
 			}
 

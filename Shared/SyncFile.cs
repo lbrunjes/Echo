@@ -20,6 +20,7 @@ namespace Shared
 			this.hash = this.CalculateHash (path);
 			this.path = path;
 			this.ModifiedDate = File.GetLastWriteTimeUtc (path);
+            this.FileSize = (int) new FileInfo(path).Length;
 		}
 		public SyncFile (string _path, JsonObject obj)
 		{
@@ -39,6 +40,9 @@ namespace Shared
 						out this.ModifiedDate);
 
 				}
+                if (field.Name == "size"){
+                    this.FileSize = (int)field.GetValue();
+                }
 
 			}
 		}
@@ -61,6 +65,9 @@ namespace Shared
 						out this.ModifiedDate);
 
 				}
+                if (field.Name == "size") {
+                    this.FileSize = (int)field.GetValue();
+                }
 
 			}
 		}

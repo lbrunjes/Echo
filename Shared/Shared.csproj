@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Shared</RootNamespace>
     <AssemblyName>Shared</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\..\..\..\..\home\lee\src\public.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
