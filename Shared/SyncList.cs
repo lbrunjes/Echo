@@ -104,7 +104,7 @@ namespace Shared
 				File.Delete (filename);
 			}
 
-			StreamWriter writer = new StreamWriter (File.OpenWrite (Settings.HashCache));
+			StreamWriter writer = new StreamWriter (File.Open (Settings.HashCache, FileMode.Create));
 
 			writer.WriteLine ("{");
 
@@ -113,7 +113,7 @@ namespace Shared
 			}
 			writer.WriteLine (String.Format ("\"__Server\":\"{0}\",", ServerName));
 			writer.WriteLine (String.Format ("\"__DateGeneratedUTC\":\"{0:yy-MM-dd-hh-mm-ss}\"", DateTime.UtcNow));
-			writer.Write ("}");
+			writer.WriteLine ("}");
 			writer.Flush ();
 			writer.Close ();
 
