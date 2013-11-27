@@ -30,6 +30,8 @@ namespace ClientWinForms
 
 		public static int DownloadCount =0;
         private Button StartNS2;
+        private TableLayoutPanel tableLayoutPanel1;
+        private FlowLayoutPanel flowLayoutPanel1;
 		public static int ErrorCount =0;
 
 
@@ -62,77 +64,114 @@ namespace ClientWinForms
             this.Console = new System.Windows.Forms.TextBox();
             this.Progress = new System.Windows.Forms.ProgressBar();
             this.StartNS2 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // SettingsButton
             // 
-            this.SettingsButton.Location = new System.Drawing.Point(351, 32);
+            this.SettingsButton.Location = new System.Drawing.Point(269, 3);
             this.SettingsButton.Name = "SettingsButton";
             this.SettingsButton.Size = new System.Drawing.Size(96, 32);
             this.SettingsButton.TabIndex = 0;
             this.SettingsButton.Text = "Settings";
-            this.SettingsButton.MouseClick += this.ShowSettings;
             // 
             // StartSync
             // 
-            this.StartSync.Location = new System.Drawing.Point(0, 32);
+            this.StartSync.Location = new System.Drawing.Point(3, 3);
             this.StartSync.Name = "StartSync";
-            this.StartSync.Size = new System.Drawing.Size(256, 32);
+            this.StartSync.Size = new System.Drawing.Size(260, 32);
             this.StartSync.TabIndex = 1;
             this.StartSync.Text = "Start Scan and Sync";
-            this.StartSync.MouseClick += this.RunSyncAndScan;
             // 
             // Clear
             // 
-            this.Clear.Location = new System.Drawing.Point(262, 32);
+            this.Clear.Location = new System.Drawing.Point(371, 3);
             this.Clear.Name = "Clear";
             this.Clear.Size = new System.Drawing.Size(83, 32);
             this.Clear.TabIndex = 4;
             this.Clear.Text = "Clear";
-            this.Clear.MouseClick += this.ClearConsole;
             // 
             // Console
             // 
-            this.Console.Location = new System.Drawing.Point(0, 64);
+            this.Console.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Console.Location = new System.Drawing.Point(3, 67);
             this.Console.Multiline = true;
             this.Console.Name = "Console";
             this.Console.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.Console.Size = new System.Drawing.Size(557, 256);
+            this.Console.Size = new System.Drawing.Size(560, 244);
             this.Console.TabIndex = 2;
             // 
             // Progress
             // 
-            this.Progress.Location = new System.Drawing.Point(0, 8);
+            this.Progress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Progress.Location = new System.Drawing.Point(3, 3);
             this.Progress.Name = "Progress";
-            this.Progress.Size = new System.Drawing.Size(557, 16);
+            this.Progress.Size = new System.Drawing.Size(560, 16);
             this.Progress.TabIndex = 3;
             // 
             // StartNS2
             // 
-            this.StartNS2.Location = new System.Drawing.Point(453, 32);
+            this.StartNS2.Location = new System.Drawing.Point(460, 3);
             this.StartNS2.Name = "StartNS2";
             this.StartNS2.Size = new System.Drawing.Size(96, 32);
             this.StartNS2.TabIndex = 5;
             this.StartNS2.Text = "Start NS2";
             this.StartNS2.Click += new System.EventHandler(this.StartNS2_Click);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.Progress, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Console, 0, 2);
+            this.tableLayoutPanel1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(566, 314);
+            this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.StartSync);
+            this.flowLayoutPanel1.Controls.Add(this.SettingsButton);
+            this.flowLayoutPanel1.Controls.Add(this.Clear);
+            this.flowLayoutPanel1.Controls.Add(this.StartNS2);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 26);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(560, 35);
+            this.flowLayoutPanel1.TabIndex = 4;
+            // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(569, 312);
-            this.Controls.Add(this.StartNS2);
-            this.Controls.Add(this.SettingsButton);
-            this.Controls.Add(this.StartSync);
-            this.Controls.Add(this.Console);
-            this.Controls.Add(this.Progress);
-            this.Controls.Add(this.Clear);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(566, 316);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Echo";
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 
