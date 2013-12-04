@@ -77,6 +77,7 @@ namespace ClientWinForms
             this.SettingsButton.Size = new System.Drawing.Size(96, 32);
             this.SettingsButton.TabIndex = 0;
             this.SettingsButton.Text = "Settings";
+            this.SettingsButton.Click += new System.EventHandler(this.ShowSettings);
             // 
             // StartSync
             // 
@@ -85,6 +86,7 @@ namespace ClientWinForms
             this.StartSync.Size = new System.Drawing.Size(260, 32);
             this.StartSync.TabIndex = 1;
             this.StartSync.Text = "Start Scan and Sync";
+            this.StartSync.Click += new System.EventHandler(this.RunSyncAndScan);
             // 
             // Clear
             // 
@@ -93,6 +95,7 @@ namespace ClientWinForms
             this.Clear.Size = new System.Drawing.Size(83, 32);
             this.Clear.TabIndex = 4;
             this.Clear.Text = "Clear";
+            this.Clear.Click += new System.EventHandler(this.ClearConsole);
             // 
             // Console
             // 
@@ -175,7 +178,7 @@ namespace ClientWinForms
 
 		}
 
-		private void ClearConsole (Object o, MouseEventArgs args)
+		private void ClearConsole (Object o, EventArgs args)
 		{
 			Console.Text ="";
 		}
@@ -192,7 +195,7 @@ namespace ClientWinForms
 
         }
 
-		public void RunSyncAndScan(Object o, MouseEventArgs args)
+		public void RunSyncAndScan(Object o, EventArgs args)
 		{
             if (!StartSync.Enabled)
             {
@@ -381,7 +384,7 @@ namespace ClientWinForms
             Progress.Value = e.ProgressPercentage;
         }
 
-		public void ShowSettings(object a, MouseEventArgs e)
+		public void ShowSettings(object a, EventArgs e)
         {
 			SettingsForm.ShowDialog();
 		}
