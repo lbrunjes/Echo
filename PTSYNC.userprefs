@@ -1,24 +1,24 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClientWinForms/MainForm.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Server/Main.cs">
     <Files>
-      <File FileName="ClientWinForms/EntryPoint.cs" Line="19" Column="4" />
-      <File FileName="ClientWinForms/MainForm.cs" Line="109" Column="1" />
+      <File FileName="Shared/SyncList.cs" Line="112" Column="17" />
+      <File FileName="Server/Main.cs" Line="20" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Client" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
-          <Node name="ClientWinForms" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
           <Node name="Server" expanded="True">
-            <Node name="References" expanded="True" />
+            <Node name="Main.cs" selected="True" />
           </Node>
-          <Node name="Shared" expanded="True" selected="True" />
+          <Node name="Shared" expanded="True" />
         </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

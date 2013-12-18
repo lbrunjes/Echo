@@ -10,8 +10,8 @@
     <RootNamespace>ClientWinForms</RootNamespace>
     <AssemblyName>ClientWinForms</AssemblyName>
     <ApplicationIcon>..\binaries\Debug\echo.ico</ApplicationIcon>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\..\..\..\..\home\lee\src\public.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>home\lee\src\default.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>

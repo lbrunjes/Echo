@@ -15,7 +15,7 @@ namespace Server
 	{
 		public static void Main (String[] args)
 		{
-			using (Mutex soloChk = new Mutex(false, System.Reflection.Assembly.GetCallingAssembly().GetName().FullName)) {
+			using (Mutex soloChk = new Mutex(false, "PT_SYNC_SERVER")) {
 
 				if(!soloChk.WaitOne(0, false)){
 					Console.WriteLine("ERROR: Another server instance is running. So we are not going to run. sorry.");
