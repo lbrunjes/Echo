@@ -36,9 +36,9 @@ namespace Shared
 				if(field.Name == "time"){
 					DateTime.TryParseExact(
                         (string)field.Value,
-						"yyyy-MM-dd hh:mm:ss",
+						"yyyy-MM-dd HH:mm:ss",
 						CultureInfo.InvariantCulture,
-						DateTimeStyles.AssumeUniversal,
+                        DateTimeStyles.AssumeUniversal|DateTimeStyles.AdjustToUniversal,
 						out this.ModifiedDate);
 				}
 
