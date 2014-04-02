@@ -7,9 +7,9 @@
 // 
 using System;
 using System.IO;
-using System.Net.Json;
 using System.Globalization;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Shared
 {
@@ -22,51 +22,28 @@ namespace Shared
 			this.ModifiedDate = File.GetLastWriteTimeUtc (path);
             this.FileSize = (int) new FileInfo(path).Length;
 		}
-		public SyncFile (string _path, JsonObject obj)
+
+		public SyncFile (string _path, JObject obj)
 		{
 			path = _path;
-			foreach (JsonObject field in obj as JsonObjectCollection) {
+
+			foreach (var field in obj.Children<JProperty>()) {
 
 				if(field.Name == "hash"){
-					this.hash = (string)field.GetValue();
+					this.hash = (string)field.Value;
 				}
+
 				if(field.Name == "time"){
-
 					DateTime.TryParseExact(
-						(string)field.GetValue(), 
+                        (string)field.Value,
 						"yyyy-MM-dd hh:mm:ss",
 						CultureInfo.InvariantCulture,
 						DateTimeStyles.AssumeUniversal,
 						out this.ModifiedDate);
-
 				}
+
                 if (field.Name == "size"){
-                    this.FileSize = (int)field.GetValue();
-                }
-
-			}
-		}
-		public SyncFile (string _path, List<JsonObject> obj)
-		{
-			path = _path;
-		
-			foreach (JsonObject field in obj) {
-
-				if (field.Name == "hash") {
-					this.hash = (string)field.GetValue ();
-				}
-				if (field.Name == "time") {
-
-					DateTime.TryParseExact (
-						(string)field.GetValue (), 
-						"yyyy-MM-dd hh:mm:ss",
-						CultureInfo.InvariantCulture,
-						DateTimeStyles.AssumeUniversal,
-						out this.ModifiedDate);
-
-				}
-                if (field.Name == "size") {
-                    this.FileSize = (int)field.GetValue();
+                    this.FileSize = (int)field.Value;
                 }
 
 			}

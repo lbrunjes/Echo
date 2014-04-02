@@ -8,7 +8,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Shared
 {
@@ -39,13 +40,16 @@ namespace Shared
 			///Load the cahche file
 			if (HashList.Count == 0 && File.Exists (Settings.HashCache)) {
 				try{
-					JsonObject hashes = new JsonTextParser().Parse(File.ReadAllText(Settings.HashCache));
-					Console.WriteLine("using cache");
-					foreach (JsonObject field in hashes as JsonObjectCollection) {
+                    Console.WriteLine("using hash cache");
+                    JObject hashes = JObject.Parse(File.ReadAllText(Settings.HashCache));
 
-
-						HashList.Add (field.Name, new SyncFile(field.Name,(JsonObject)field.GetValue()));
+                    foreach (var field in hashes.Children<JProperty>()) {
+                        if (field.Value.Type == JTokenType.Object) {
+                           HashList.Add (field.Name, new SyncFile(field.Name, (JObject)field.Value)); 
+                        }
 					}
+
+                    Console.WriteLine("{0} files in hash cache", HashList.Count);
 				}
 				catch(Exception ex){
 					//supress warning about timestamp and date

@@ -1,0 +1,7 @@
+ClientWinForms/obj/*
+binaries/*
+Shared/obj/*
+Client/obj/*
+Server/obj/*
+*.suo
+packages/*

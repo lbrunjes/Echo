@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{F83BBFCB-0C15-4BBC-A616-FB4D8DA9A6A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}"
@@ -9,7 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWinForms", "ClientWinForms\ClientWinForms.csproj", "{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Net.Json", "System.Net.Json\System.Net.Json.csproj", "{92A9D7E9-081A-44E1-BC46-3DFF2ACE072B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6DD7D750-818E-4CD0-A8CE-2639B16300F3}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,26 +22,25 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Debug|x86.Build.0 = Debug|Any CPU
-		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Release|x86.ActiveCfg = Release|Any CPU
-		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Release|x86.Build.0 = Release|Any CPU
-		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.ActiveCfg = Debug|x86
-		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.Build.0 = Debug|x86
-		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Release|x86.ActiveCfg = Release|x86
-		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Release|x86.Build.0 = Release|x86
-		{92A9D7E9-081A-44E1-BC46-3DFF2ACE072B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{92A9D7E9-081A-44E1-BC46-3DFF2ACE072B}.Debug|x86.Build.0 = Debug|Any CPU
-		{92A9D7E9-081A-44E1-BC46-3DFF2ACE072B}.Release|x86.ActiveCfg = Release|Any CPU
-		{92A9D7E9-081A-44E1-BC46-3DFF2ACE072B}.Release|x86.Build.0 = Release|Any CPU
-		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Debug|x86.ActiveCfg = Debug|x86
-		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Debug|x86.Build.0 = Debug|x86
-		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Release|x86.ActiveCfg = Release|x86
-		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Release|x86.Build.0 = Release|x86
 		{F83BBFCB-0C15-4BBC-A616-FB4D8DA9A6A3}.Debug|x86.ActiveCfg = Debug|x86
 		{F83BBFCB-0C15-4BBC-A616-FB4D8DA9A6A3}.Debug|x86.Build.0 = Debug|x86
 		{F83BBFCB-0C15-4BBC-A616-FB4D8DA9A6A3}.Release|x86.ActiveCfg = Release|x86
 		{F83BBFCB-0C15-4BBC-A616-FB4D8DA9A6A3}.Release|x86.Build.0 = Release|x86
+		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E44D5D0-FCC6-42B9-A5FE-32DA3A30F2BE}.Release|x86.Build.0 = Release|Any CPU
+		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Debug|x86.ActiveCfg = Debug|x86
+		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Debug|x86.Build.0 = Debug|x86
+		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Release|x86.ActiveCfg = Release|x86
+		{CBD60B95-19F5-4F3F-9E9F-A2859137A582}.Release|x86.Build.0 = Release|x86
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.ActiveCfg = Debug|x86
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Debug|x86.Build.0 = Debug|x86
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Release|x86.ActiveCfg = Release|x86
+		{83E9DFAC-0C4C-417B-9F51-8BC4528B5CAD}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ClientWinForms\ClientWinForms.csproj

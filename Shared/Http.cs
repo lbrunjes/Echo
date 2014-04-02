@@ -8,9 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Json;
 using System.IO;
 using Shared;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Shared
 {
@@ -23,22 +24,16 @@ namespace Shared
 			string HashJSON = getHashData ();
 
 			//read JSON
-			JsonTextParser parser = new JsonTextParser ();
-			JsonObject hashes = parser.Parse(HashJSON);
+			var hashes = JObject.Parse(HashJSON);
+           // Console.WriteLine("Hash list generated: "+(string)hashes["__DateGeneratedUTC"]);
 
-			foreach (JsonObject field in hashes as JsonObjectCollection) {
+            foreach (var field in hashes.Children<JProperty>()) {
 		
-				if(field.GetValue().GetType().Name !="String" ){
-
-					List<JsonObject> obj  = (List<JsonObject>)field.GetValue();
-
-
-
-					SyncFile sf =new SyncFile(field.Name.ToString(), obj);		                                       
-					Hashlist.Add (field.Name, sf);
-				}
-				else{
-					//Console.WriteLine(field.Name, field.GetValue().ToString());
+				if(field.Value.Type != JTokenType.String){
+                    SyncFile sf = new SyncFile(field.Name, (JObject)field.Value);		                                       
+					Hashlist.Add(field.Name, sf);
+				}else{
+					//Console.WriteLine(field.Name, field.Value.ToString());
 				}
 			}
 
